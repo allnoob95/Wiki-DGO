@@ -1,0 +1,2860 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="site.title">Digimon Galaxy - Wiki DGO</title>
+  <style>
+    :root {
+      --cor-fundo-escuro: #061022;
+      --cor-fundo-secao:  #0e1b33;
+      --cor-destaque-primaria: #ffc400;
+      --cor-destaque-secundaria: #00e5ff;
+      --cor-texto: #eaf2ff;
+      --cor-texto-botao: #0a0f1e;
+      --digi-cyan: #00e5ff;
+      --digi-blue: #21a1ff;
+      --glyph-offset: 260px;
+    }
+    body {
+      background: url("fundo wiki.png") no-repeat center center fixed;
+      background-size: cover;
+      background-color: var(--cor-fundo-escuro);
+      color: var(--cor-texto);
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      background: linear-gradient(180deg, rgba(6,16,34,.90), rgba(6,16,34,.92));
+      opacity: 0.82; z-index: -1;
+      pointer-events: none;
+    }
+
+    .content, .nav, .section { position: relative; z-index: 1; }
+    h1, h2 {
+      color: var(--cor-destaque-primaria);
+      margin: 0;
+      text-shadow: 0 0 6px var(--cor-destaque-secundaria), 0 0 14px rgba(0,229,255,.55);
+    }
+    .logo-container { position: relative; width: min(360px, 100%); max-width: 100%; margin: 8px auto 6px; }
+    .logo-container img { display: block; width: 100%; }
+
+    .glitch-wrapper { position: relative; }
+    .glitch { position: relative; }
+    .glitch img {
+      display: block; width: 100%; height: auto; opacity: 1;
+      position: relative; z-index: 0;
+    }
+    .glitch::before, .glitch::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: url("Digital_galaxy_logo.png");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 100% 100%;
+      opacity: .75; mix-blend-mode: screen;
+      pointer-events: none; z-index: 1;
+    }
+    .glitch::before {
+      transform: translateX(2px);
+      filter: hue-rotate(40deg) saturate(1.2);
+      animation: glitch-anim-1 10s infinite linear alternate;
+    }
+    .glitch::after {
+      transform: translateX(-2px);
+      filter: hue-rotate(-40deg) saturate(1.2);
+      animation: glitch-anim-2 8s infinite linear alternate;
+    }
+    @keyframes glitch-anim-1 {
+      0% { clip-path: polygon(0 2%,100% 2%,100% 5%,0 5%); transform: translate(-3px,0); }
+      10% { clip-path: polygon(0 75%,100% 75%,100% 76%,0 76%); transform: translate(3px,0); }
+      20% { clip-path: polygon(0 40%,100% 40%,100% 41%,0 41%); transform: translate(-3px,0); }
+      30% { clip-path: polygon(0 80%,100% 80%,100% 81%,0 81%); transform: translate(3px,0); }
+      40% { clip-path: polygon(0 50%,100% 50%,100% 51%,0 51%); transform: translate(-3px,0); }
+      50% { clip-path: polygon(0 15%,100% 15%,100% 16%,0 16%); transform: translate(3px,0); }
+      60% { clip-path: polygon(0 60%,100% 60%,100% 61%,0 61%); transform: translate(-3px,0); }
+      70% { clip-path: polygon(0 30%,100% 30%,100% 31%,0 31%); transform: translate(3px,0); }
+      80% { clip-path: polygon(0 90%,100% 90%,100% 91%,0 91%); transform: translate(-3px,0); }
+      90% { clip-path: polygon(0 10%,100% 10%,100% 11%,0 11%); transform: translate(3px,0); }
+      100% { clip-path: polygon(0 1%,100% 1%,100% 2%,0 2%); transform: translate(-3px,0); }
+    }
+    @keyframes glitch-anim-2 {
+      0% { clip-path: polygon(0 7%,100% 7%,100% 10%,0 10%); transform: translate(2px,0); }
+      10% { clip-path: polygon(0 85%,100% 85%,100% 86%,0 86%); transform: translate(-2px,0); }
+      20% { clip-path: polygon(0 30%,100% 30%,100% 31%,0 31%); transform: translate(-2px,0); }
+      30% { clip-path: polygon(0 70%,100% 70%,100% 71%,0 71%); transform: translate(-2px,0); }
+      40% { clip-path: polygon(0 42%,100% 42%,100% 43%,0 43%); transform: translate(2px,0); }
+      50% { clip-path: polygon(0 55%,100% 55%,100% 56%,0 56%); transform: translate(-2px,0); }
+      60% { clip-path: polygon(0 20%,100% 20%,100% 21%,0 21%); transform: translate(2px,0); }
+      70% { clip-path: polygon(0 65%,100% 65%,100% 66%,0 66%); transform: translate(-2px,0); }
+      80% { clip-path: polygon(0 93%,100% 93%,100% 94%,0 94%); transform: translate(2px,0); }
+      90% { clip-path: polygon(0 12%,100% 12%,100% 13%,0 13%); transform: translate(-2px,0); }
+      100% { clip-path: polygon(0 33%,100% 33%,100% 34%,0 34%); transform: translate(-2px,0); }
+    }
+
+    .content { max-width: 1000px; margin: auto; padding: 20px; }
+    .top-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .lang-selector { margin: 10px 0; }
+    /* MELHORIA: selector desabilitado com estilo visual adequado */
+    .lang-selector select {
+      padding: 5px; font-weight: bold;
+      background-color: var(--cor-fundo-secao); color: var(--cor-texto);
+      border: 1px solid var(--cor-destaque-secundaria); border-radius: 4px;
+      box-shadow: 0 0 8px rgba(0,229,255,.25) inset;
+    }
+    .lang-selector select[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: rgba(0,229,255,.3);
+    }
+    .nav { text-align: center; }
+    .nav.dungeon-nav { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 10px; }
+    .nav button {
+      background: linear-gradient(180deg, #ffd54f, var(--cor-destaque-primaria));
+      border: 1px solid var(--cor-destaque-primaria);
+      color: var(--cor-texto-botao);
+      padding: 10px 20px; margin: 5px; border-radius: 8px;
+      font-weight: bold; transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 0 1px rgba(255,196,0,.3), 0 0 16px rgba(0,229,255,.18);
+    }
+    .nav button:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(255,196,0,.45), 0 0 22px rgba(0,229,255,.35); }
+    /* MELHORIA: cursor pointer explícito nos botões */
+    button, select, input { cursor: pointer; }
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--cor-destaque-secundaria);
+      outline-offset: 3px;
+    }
+    .section {
+      display: none; background-color: var(--cor-fundo-secao);
+      padding: 20px; border-radius: 12px; margin-top: 20px;
+      border: 1px solid var(--cor-destaque-secundaria);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .section.active { display: block; }
+    .centered { text-align: center; }
+    .dungeon-item { margin-bottom: 10px; width: 100%; }
+    .digimon-info {
+      display:none; background-color: var(--cor-fundo-secao);
+      padding:20px; border-radius:10px; margin-top:10px;
+      border: 1px solid var(--cor-destaque-secundaria);
+    }
+    .images img { display:block; margin: 8px auto; border-radius: 8px; max-width: 100%; }
+    mark { background: rgba(255,196,0,.18); padding: 0 .25em; border-radius: 4px; }
+
+    .table {
+      width:100%; border-collapse: collapse; margin: 8px 0 16px;
+      background: rgba(0,0,0,.15); border-radius: 10px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,229,255,.12) inset;
+    }
+    .table th, .table td {
+      padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.06);
+      vertical-align: top;
+    }
+    .table th { text-align:left; color:#ffe27a; }
+    .chip {
+      display:inline-block; padding: 2px 8px; border-radius: 999px;
+      background: rgba(0,229,255,.15); border: 1px solid rgba(0,229,255,.5);
+      font-size: 12px; margin: 0 6px 6px 0;
+    }
+    .notice {
+      padding:10px 12px; border:1px dashed rgba(255,196,0,.6); border-radius:8px;
+      background: rgba(255,196,0,.08); margin: 8px 0 14px; font-size: 14px;
+    }
+
+    #dungeons .dungeon-layout{
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    #dungeons .dungeon-nav button{ width: 100%; text-align: left; box-sizing: border-box; }
+    #dungeon-content{
+      background-color: var(--cor-fundo-secao);
+      border: 1px solid var(--cor-destaque-secundaria);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 22px rgba(0,229,255,.12) inset;
+    }
+    #dungeon-hero{ display: block; margin: 0; }
+    #dungeon-hero img{
+      display: block; margin: 0 auto;
+      width: 100%; height: auto; max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    #dungeons .digimon-info{ display: none; }
+
+    #novato .novice-layout{
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-top: 10px;
+    }
+    #novato .novice-nav{ display:flex; flex-direction:column; gap:10px; }
+    #novato .novice-nav button{ width:100%; text-align:left; }
+    #novice-content{
+      background-color: var(--cor-fundo-secao);
+      border: 1px solid var(--cor-destaque-secundaria);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 420px;
+      box-shadow: 0 0 22px rgba(0,229,255,.12) inset;
+    }
+    #novato-hero img{
+      display:block; margin:0 auto; width:100%; max-width:420px; height:auto;
+      border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    #novato .novice-block{ display:none; }
+
+    #eventos .event-layout{
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-top: 10px;
+    }
+    #eventos{ position:relative; }
+    #eventos .event-nav{ display:flex; flex-direction:column; gap:10px; }
+    #eventos .event-nav button{ width:100%; text-align:left; }
+    .rafflesimon-event-cameo,
+    .mamemon-event-cameo,
+    .kizunas-event-cameo{
+      position:absolute;
+      top:44px;
+      right:calc(100% + 12px);
+      width:clamp(170px, 14vw, 260px);
+      height:auto;
+      z-index:5;
+      pointer-events:none;
+      visibility:hidden;
+      opacity:0;
+      transform:translateX(-28px) scale(.92);
+    }
+    .rafflesimon-event-cameo{
+      filter:drop-shadow(0 0 14px rgba(255,70,190,.7));
+    }
+    .mamemon-event-cameo{
+      border:1px solid rgba(255,196,0,.65);
+      border-radius:12px;
+      filter:drop-shadow(0 0 14px rgba(255,196,0,.65));
+    }
+    .kizunas-event-cameo{
+      filter:drop-shadow(0 0 15px rgba(0,229,255,.75));
+    }
+    .rafflesimon-event-cameo.show,
+    .mamemon-event-cameo.show,
+    .kizunas-event-cameo.show{
+      visibility:visible;
+      animation:rafflesimon-event-show 2s ease-in-out forwards;
+    }
+    @keyframes rafflesimon-event-show{
+      0%{ opacity:0; transform:translateX(-28px) scale(.92); }
+      18%, 72%{ opacity:1; transform:translateX(0) scale(1); }
+      100%{ opacity:0; transform:translateX(-16px) scale(.96); }
+    }
+    @media (max-width: 1400px){
+      .rafflesimon-event-cameo,
+      .mamemon-event-cameo,
+      .kizunas-event-cameo{
+        right:auto;
+        left:calc((100vw - 1000px) / -2 + 8px);
+      }
+    }
+    #event-content{
+      background-color: var(--cor-fundo-secao);
+      border: 1px solid var(--cor-destaque-secundaria);
+      border-radius: 12px;
+      padding: 18px;
+      min-height: 320px;
+      box-shadow: 0 0 22px rgba(0,229,255,.12) inset;
+    }
+    #eventos .event-block{ display:none; }
+    .event-hero{ text-align:center; padding:40px 16px; }
+    .event-date{
+      display:inline-block; margin:8px 0 18px; padding:7px 14px;
+      border-radius:999px; color:#ffe27a; font-weight:bold;
+      border:1px solid rgba(255,196,0,.6); background:rgba(255,196,0,.08);
+    }
+    .event-item-list{ display:grid; gap:10px; padding:0; list-style:none; }
+    .event-item-list li{
+      padding:12px; border-radius:8px;
+      border:1px solid rgba(0,229,255,.22); background:rgba(0,0,0,.16);
+    }
+    .event-divider{
+      border:0; height:1px; margin:24px 0;
+      background:linear-gradient(90deg, transparent, rgba(0,229,255,.55), transparent);
+    }
+
+    .changelog-toolbar{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin:16px 0 20px;
+    }
+    .changelog-status{ color:#a9c6e8; font-size:14px; }
+    .changelog-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .changelog-actions button,
+    .changelog-discord-link{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:38px; padding:8px 14px; box-sizing:border-box;
+      border:1px solid var(--cor-destaque-primaria); border-radius:8px;
+      background:linear-gradient(180deg, #ffd54f, var(--cor-destaque-primaria));
+      color:#09162b; font:inherit; font-weight:bold; text-decoration:none;
+      transition:filter .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+    .changelog-actions button:hover,
+    .changelog-discord-link:hover{
+      filter:brightness(1.06); transform:translateY(-1px);
+      box-shadow:0 0 0 1px rgba(255,196,0,.45), 0 0 22px rgba(0,229,255,.35);
+    }
+    .changelog-list{ display:grid; gap:16px; }
+    .changelog-entry{
+      padding:16px; border:1px solid rgba(0,229,255,.28); border-radius:12px;
+      background:rgba(0,0,0,.18); box-shadow:0 0 18px rgba(0,229,255,.08) inset;
+    }
+    .changelog-entry-header{
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px;
+    }
+    .changelog-author{ color:#ffe27a; font-weight:800; }
+    .changelog-date{ color:#9db2cb; font-size:13px; }
+    .changelog-content{ margin:0; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.55; }
+    .changelog-attachments{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-top:12px;
+    }
+    .changelog-attachments img{
+      display:block; width:100%; max-height:420px; object-fit:contain;
+      border-radius:10px; background:rgba(0,0,0,.25);
+    }
+    .changelog-attachment-link{ color:#7eefff; overflow-wrap:anywhere; }
+    .changelog-embed{
+      margin-top:12px; padding:12px; border-left:4px solid var(--cor-destaque-secundaria);
+      border-radius:8px; background:rgba(0,0,0,.2);
+    }
+    .changelog-embed h3{ margin-top:0; }
+    .changelog-empty{ padding:32px 16px; text-align:center; }
+
+    .digimon-controls{
+      display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 16px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(0,229,255,0.25);
+      padding: 12px; border-radius: 10px;
+    }
+    .digimon-controls input,
+    .digimon-controls select{
+      flex:1; min-width: 200px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,229,255,0.55);
+      background: #061022;
+      color: var(--cor-texto);
+      outline: none;
+    }
+    .digimon-controls input::placeholder { color: rgba(234,242,255,0.65); }
+
+    #digimon-table tbody tr{ cursor:pointer; transition: background .18s ease; }
+    #digimon-table tbody tr:hover{ background: rgba(0,229,255,0.12); }
+
+    .digimon-icon-small{
+      width: 40px; height: 40px;
+      object-fit: contain;
+      background: rgba(0,0,0,0.35);
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .modal{
+      position: fixed; inset: 0; z-index: 10000;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
+    }
+    .modal.active{ display:flex; }
+
+    .modal-card{
+      width: 850px; max-width: 95vw;
+      max-height: 90vh; overflow: auto;
+      background: #0d1626;
+      border: 2px solid var(--cor-destaque-secundaria);
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0,229,255,0.25);
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .modal-header{
+      padding: 14px 18px;
+      background: rgba(0,229,255,0.10);
+      border-bottom: 1px solid rgba(0,229,255,0.55);
+      display:flex; justify-content: space-between; align-items:center;
+      gap: 10px;
+      position: sticky; top: 0;
+      z-index: 2;
+    }
+    .modal-header h2{
+      margin: 0; font-size: 1.5em; color: #fff;
+      text-shadow: 0 0 10px rgba(0,229,255,0.6);
+      letter-spacing: .3px;
+    }
+    .btn-close{
+      background: transparent;
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-close:hover{ background:#ff4444; color:#fff; }
+
+    .modal-body{
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    /* MELHORIA: breakpoint adicional para modal em telas médias */
+    @media (max-width: 768px){
+      .modal-body{ grid-template-columns: 1fr; }
+      .dmo-image-box{ height: 220px; }
+    }
+    @media (max-width: 560px){
+      .modal-card{ max-height: 95vh; }
+      .modal-header h2{ font-size: 1.1em; }
+    }
+
+    .dmo-image-box{
+      background: radial-gradient(circle, #1a2a45 0%, #000 100%);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px;
+      height: 300px;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden; position: relative;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.45);
+    }
+    .dmo-image-box img{
+      max-width: 90%; max-height: 90%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 14px rgba(0,0,0,0.85));
+    }
+
+    .stats-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: minmax(0, auto);
+      gap: 10px;
+      margin-top: 10px;
+      min-width: 0;
+    }
+    .stats-grid > .stat-item { min-width: 0; }
+    .stats-grid.left-extra{
+      grid-template-columns: 1fr;
+      margin-top: 14px;
+    }
+    .stat-item{
+      background: rgba(255,255,255,0.035);
+      padding: 9px 12px;
+      border-radius: 8px;
+      border-left: 3px solid rgba(0,229,255,0.65);
+    }
+    .stat-label{
+      font-size: 0.78em; color: #88aaff;
+      display:block; margin-bottom: 4px;
+      text-transform: uppercase; letter-spacing: .6px;
+    }
+    .stat-value{ font-size: 1.06em; font-weight: 800; color: #fff; }
+    .stat-value.hp{ color:#ff6666; }
+    .stat-value.ds{ color:#6b84ff; }
+    .stat-value.at{ color:#ffb14a; }
+    .stat-value.multiline {
+      white-space: pre-wrap; word-break: break-word; font-weight: 600;
+      writing-mode: initial; text-orientation: initial;
+      display: block; overflow-wrap: anywhere;
+      max-width: 100%; text-align: left;
+    }
+
+    .modal-card{ position: relative; }
+    .evo-line-zoom{
+      margin-top: 8px; width: 100%; max-width: 100%;
+      border-radius: 10px; border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.18); overflow: hidden; display: block;
+    }
+    .evo-line-zoom img{
+      display: block; width: 100%; height: auto;
+      max-height: clamp(220px, 32vh, 420px);
+      object-fit: contain; cursor: zoom-in;
+    }
+    .evo-zoom-overlay{
+      position: fixed; inset: 0; z-index: 10020;
+      display: none; align-items: center; justify-content: center;
+      padding: 18px; background: rgba(0,0,0,0.86);
+      backdrop-filter: blur(2px);
+    }
+    .evo-zoom-overlay.active{ display: flex; }
+    .evo-zoom-overlay .evo-zoom-panel{
+      width: min(1200px, 96vw); height: min(760px, 92vh);
+      background: rgba(13,22,38,0.95);
+      border: 2px solid rgba(0,229,255,0.55);
+      border-radius: 14px;
+      box-shadow: 0 0 40px rgba(0,229,255,0.22);
+      display: grid; grid-template-rows: auto 1fr; overflow: hidden;
+    }
+    .evo-zoom-overlay .evo-zoom-topbar{
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; padding: 12px 14px;
+      background: rgba(0,229,255,0.10);
+      border-bottom: 1px solid rgba(0,229,255,0.35);
+    }
+    .evo-zoom-overlay .evo-zoom-title{
+      font-weight: 800; letter-spacing: .2px; color: #fff;
+      text-shadow: 0 0 10px rgba(0,229,255,0.25);
+    }
+    .evo-zoom-overlay .evo-zoom-close{
+      border: 1px solid rgba(0,229,255,0.45);
+      background: rgba(0,229,255,0.10); color: #fff;
+      border-radius: 10px; padding: 8px 10px;
+      cursor: pointer; font-weight: 800;
+    }
+    .evo-zoom-overlay .evo-zoom-close:hover{ background: rgba(0,229,255,0.18); }
+    .evo-zoom-overlay .evo-zoom-canvas{ padding: 12px; height: 100%; }
+    .evo-zoom-overlay img{
+      width: 100%; height: 100%; object-fit: contain;
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28); cursor: zoom-out;
+    }
+    .image-zoom-trigger{
+      cursor: zoom-in;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .image-zoom-trigger:hover,
+    .image-zoom-trigger:focus-visible{
+      transform: scale(1.01);
+      box-shadow: 0 0 24px rgba(0,229,255,.42);
+    }
+    .image-zoom-overlay{
+      position:fixed; inset:0; z-index:10030;
+      display:none; align-items:center; justify-content:center;
+      padding:18px; background:rgba(0,0,0,.9);
+      backdrop-filter:blur(3px);
+    }
+    .image-zoom-overlay.active{ display:flex; }
+    .image-zoom-panel{
+      width:min(1500px, 97vw); height:min(920px, 94vh);
+      display:grid; grid-template-rows:auto 1fr;
+      overflow:hidden; border-radius:14px;
+      border:2px solid rgba(0,229,255,.55);
+      background:rgba(13,22,38,.97);
+      box-shadow:0 0 42px rgba(0,229,255,.28);
+    }
+    .image-zoom-topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 14px;
+      border-bottom:1px solid rgba(0,229,255,.35);
+      background:rgba(0,229,255,.1);
+    }
+    .image-zoom-title{ font-weight:800; color:#fff; }
+    .image-zoom-close{
+      border:1px solid rgba(0,229,255,.5);
+      background:rgba(0,229,255,.1); color:#fff;
+      border-radius:9px; padding:8px 12px;
+      cursor:pointer; font-weight:800;
+    }
+    .image-zoom-canvas{ min-height:0; padding:12px; }
+    .image-zoom-canvas img{
+      display:block; width:100%; height:100%; object-fit:contain;
+      border-radius:10px; cursor:zoom-out;
+      background:rgba(0,0,0,.25);
+    }
+    .notes-box {
+      margin-top: 16px; padding: 12px 14px;
+      border: 1px solid rgba(0,229,255,0.35);
+      background: rgba(0,0,0,0.18); border-radius: 8px;
+    }
+    .notes-title {
+      font-size: 0.9em; color: #88aaff;
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .notes-content { white-space: pre-wrap; word-break: break-word; color: #eaf2ff; line-height: 1.4; }
+
+    /* ===== PORTAL ===== */
+    #portal-overlay{
+      position: fixed; inset: 0; pointer-events: none;
+      z-index: 9999; display: none; overflow: hidden;
+    }
+    body.portal-open #portal-overlay{ display: block; }
+    #portal-overlay::before{
+      content:""; position:absolute; inset:0;
+      background:
+        repeating-linear-gradient(to bottom, rgba(33,161,255,.22) 0 2px, transparent 2px 4px),
+        radial-gradient(80% 80% at 50% 50%, rgba(0,229,255,.16), transparent 70%);
+      opacity: 0;
+    }
+    body.portal-open #portal-overlay::before{
+      animation: scan-fade 1.2s linear forwards;
+    }
+    .door{
+      position:absolute; top:0; height:100%; width:50%;
+      background: linear-gradient(to bottom, rgba(6,16,34,.98), rgba(8,18,38,1));
+      box-shadow: inset 0 0 180px rgba(33,161,255,.18);
+    }
+    .door-left{ left:0; }
+    .door-right{ right:0; }
+    .door-left::after, .door-right::after{
+      content:""; position:absolute; top:0; width:6px; height:100%;
+      background: linear-gradient(to bottom, var(--digi-cyan), var(--digi-blue));
+      box-shadow: 0 0 24px var(--digi-cyan), 0 0 48px var(--digi-blue), 0 0 90px rgba(0,229,255,.6);
+    }
+    .door-left::after{ right:-2px; }
+    .door-right::after{ left:-2px; }
+    .glyphs{
+      position:absolute; top:50%; transform: translateY(-50%);
+      width: 220px; height: 82%;
+      display:flex; flex-direction: column; justify-content: space-between; align-items:center;
+      pointer-events:none; filter: drop-shadow(0 0 8px var(--digi-cyan));
+    }
+    .glyphs-left{ left: calc(50% - var(--glyph-offset)); }
+    .glyphs-right{ right: calc(50% - var(--glyph-offset)); }
+    .glyphs span{
+      font-family: monospace; font-weight:700;
+      font-size: clamp(14px, 2.6vmin, 28px);
+      color: var(--digi-cyan);
+      text-shadow: 0 0 8px rgba(0,229,255,1), 0 0 18px rgba(33,161,255,.75), 0 0 26px rgba(255,51,204,.5);
+      opacity: 0; transform: scale(.95);
+      animation: glyph-pop .7s ease-out forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    .bit{
+      position:absolute; left:50%; top:50%;
+      width: var(--sz,8px); height: var(--sz,8px);
+      background: var(--digi-cyan);
+      box-shadow: 0 0 10px var(--digi-cyan), 0 0 22px var(--digi-blue), 0 0 40px rgba(0,229,255,.6);
+      transform: translate(-50%,-50%);
+      opacity:.95; border-radius: 2px;
+      animation: bit-out var(--dur,1100ms) cubic-bezier(.2,.7,.1,1) forwards;
+    }
+    @keyframes door-left-open { to { transform: translateX(-101%); } }
+    @keyframes door-right-open { to { transform: translateX(101%); } }
+    @keyframes scan-fade { 0%{opacity:0} 25%{opacity:.9} 100%{opacity:0} }
+    @keyframes glyph-pop { 0%{opacity:0;transform:scale(.95)} 40%{opacity:1} 100%{opacity:.75;transform:scale(1)} }
+    @keyframes glyphs-left-open { to { transform: translate(-150%, -50%); opacity:.0; } }
+    @keyframes glyphs-right-open { to { transform: translate(150%, -50%); opacity:.0; } }
+    @keyframes bit-out {
+      to {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.9) rotate(90deg);
+        opacity: 0;
+      }
+    }
+    body.portal-open #portal-overlay .door-left{ animation: door-left-open 1.2s cubic-bezier(.2,.7,.1,1) forwards; }
+    body.portal-open #portal-overlay .door-right{ animation: door-right-open 1.2s cubic-bezier(.2,.7,.1,1) forwards; }
+    body.portal-open #portal-overlay .glyphs-left{ animation: glyphs-left-open 1.2s ease-in-out forwards; }
+    body.portal-open #portal-overlay .glyphs-right{ animation: glyphs-right-open 1.2s ease-in-out forwards; }
+
+    @media (max-width: 520px){
+      #dungeons .dungeon-layout{ grid-template-columns: 1fr; }
+      #dungeon-content{ min-height: 360px; }
+      #novato .novice-layout{ grid-template-columns: 1fr; }
+      #novice-content{ min-height: 320px; }
+      #eventos .event-layout{ grid-template-columns: 1fr; }
+      #event-content{ min-height: 280px; }
+      .rafflesimon-event-cameo,
+      .mamemon-event-cameo,
+      .kizunas-event-cameo{
+        position:fixed;
+        top:auto;
+        right:auto;
+        left:6px;
+        bottom:8px;
+        width:130px;
+      }
+      :root{ --glyph-offset: 160px; }
+      .glyphs{ width: 160px; }
+    }
+
+    .evolucao{
+      display: flex; align-items: center; justify-content: center;
+      gap: 18px; margin: 24px auto; width: min(860px, 100%);
+    }
+    .evolucao img{
+      display: block; width: 260px; max-width: 42vw; height: auto;
+      border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .evolucao .arrow{
+      font-size: clamp(28px, 5vw, 56px); line-height: 1;
+      color: var(--digi-cyan);
+      text-shadow: 0 0 8px rgba(0,229,255,.9), 0 0 18px rgba(33,161,255,.7);
+      transform: translateY(-12px); user-select: none;
+    }
+    @media (max-width: 560px){
+      .evolucao{ flex-direction: column; gap: 10px; width: 100%; }
+      .evolucao .arrow{ transform: translateY(0); }
+    }
+
+    .unlock-row{
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-top: 6px;
+    }
+    .unlock-text{ flex: 1; min-width: 0; font-weight: 600; line-height: 1.2; }
+    .unlock-img{
+      width: 46px; height: 46px; object-fit: contain;
+      border-radius: 10px; background: rgba(0,0,0,.25);
+      border: 1px solid rgba(0,229,255,.25); flex: 0 0 auto;
+    }
+
+    .rebalance-box{
+      background: rgba(6,16,34,0.55);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 14px; padding: 12px; margin-top: 12px;
+    }
+    .rebalance-meta{ font-size: 12px; opacity: 0.85; margin-bottom: 10px; }
+    .rebalance-tables{
+      display: flex; flex-wrap: nowrap; gap: 12px;
+      overflow-x: auto; padding-bottom: 6px; align-items: flex-start;
+    }
+    .rebalance-table{
+      min-width: 260px; width: 100%;
+      border-collapse: collapse; font-size: 13px;
+    }
+    .rebalance-table th, .rebalance-table td{
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      vertical-align: middle;
+    }
+    .rebalance-table th{ text-align: left; font-weight: 800; color: var(--cor-destaque-primaria); }
+    .rebalance-table .diff-pos{ color: #50fa7b; font-weight: 800; }
+    .rebalance-table .diff-neg{ color: #ff5555; font-weight: 800; }
+    .rebalance-table .diff-zero{ opacity: 0.7; }
+    .rebalance-empty{ margin-top: 12px; opacity: 0.7; font-size: 13px; }
+
+    /* MELHORIA: estilos para a nova aba Guias de Missões */
+    .guias-missoes-frame{
+      width: 100%; display: block; border: 0;
+      border-radius: 16px; background: transparent; min-height: 900px;
+    }
+    .guias-missoes-placeholder{
+      padding: 40px 20px; text-align: center;
+      color: rgba(234,242,255,0.6); font-size: 15px;
+    }
+    .guias-missoes-placeholder h3{
+      color: var(--cor-destaque-primaria); margin-bottom: 12px;
+    }
+
+    /* ===== MASCOTE INTERATIVO - ÁREA DO NOVATO ===== */
+    .mascote-box {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 9998;
+      width: 250px;
+      display: none;
+      animation: mascoteEntrada .9s ease forwards;
+      pointer-events: auto;
+    }
+
+    body.mascote-novato-active .mascote-box {
+      display: block;
+    }
+
+    .mascote-balao {
+      background: rgba(6, 16, 34, 0.96);
+      color: var(--cor-texto);
+      border: 1px solid var(--cor-destaque-primaria);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      box-shadow:
+        0 0 0 1px rgba(255,196,0,.18),
+        0 0 18px rgba(255,196,0,.35),
+        0 0 28px rgba(0,229,255,.18);
+      transition: opacity .2s ease, transform .2s ease;
+      position: relative;
+    }
+
+    .mascote-balao::after {
+      content: "";
+      position: absolute;
+      left: 42px;
+      bottom: -9px;
+      width: 16px;
+      height: 16px;
+      background: rgba(6, 16, 34, 0.96);
+      border-right: 1px solid var(--cor-destaque-primaria);
+      border-bottom: 1px solid var(--cor-destaque-primaria);
+      transform: rotate(45deg);
+    }
+
+    .mascote-img {
+      width: 135px;
+      display: block;
+      margin: 0 auto 8px;
+      filter: drop-shadow(0 0 12px rgba(255,196,0,.95));
+      animation: mascoteIdle 1.2s infinite alternate ease-in-out;
+      user-select: none;
+    }
+
+    .mascote-botoes {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: rgba(6,16,34,.62);
+      border: 1px solid rgba(0,229,255,.22);
+      border-radius: 14px;
+      padding: 9px;
+      backdrop-filter: blur(4px);
+    }
+
+    .mascote-botoes button {
+      background: linear-gradient(135deg, #ffd54f, #ff9800);
+      color: #0a0f1e;
+      border: 1px solid rgba(255,196,0,.75);
+      border-radius: 9px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      text-align: left;
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+    }
+
+    .mascote-botoes button:hover {
+      transform: translateX(3px) scale(1.02);
+      filter: brightness(1.08);
+      box-shadow: 0 0 14px rgba(255,196,0,.38);
+    }
+
+    .mascote-fechar {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(6,16,34,.96);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(0,229,255,.25);
+    }
+
+    .mascote-fechar:hover {
+      background: rgba(255,68,68,.9);
+    }
+
+    @keyframes mascoteIdle {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-6px) scale(1.02); }
+    }
+
+    @keyframes mascoteEntrada {
+      from { opacity: 0; transform: translateX(-90px) translateY(20px); }
+      to { opacity: 1; transform: translateX(0) translateY(0); }
+    }
+
+    @media (max-width: 720px) {
+      .mascote-box {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        width: auto;
+        max-width: 360px;
+      }
+
+      .mascote-img {
+        width: 105px;
+      }
+
+      .mascote-botoes {
+        max-height: 145px;
+        overflow-y: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      #portal-overlay {
+        display: none !important;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <div class="logo-container glitch-wrapper">
+      <div class="glitch">
+        <img src="Digital_galaxy_logo.png" class="logo" data-i18n-attr="alt:alt.logo" alt="Digital_galaxy_logo">
+      </div>
+    </div>
+
+    <h1 class="centered" data-i18n="site.h1">Digimon Galaxy Wiki</h1>
+
+    <div class="top-header">
+      <div></div>
+      <div class="lang-selector" aria-label="Language selector">
+        <label for="language-select" data-i18n="lang.label">Idioma:</label>
+        <select id="language-select" disabled title="Apenas Português disponível no momento">
+          <option value="pt" data-i18n="lang.pt">🇧🇷 Português</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button onclick="showSection('inicio')" data-i18n="nav.inicio">Início</button>
+      <button onclick="showSection('novato')" data-i18n="nav.novato">Área do Novato</button>
+      <button onclick="redirectToDigimons()" data-i18n="nav.digimons">Digimons</button>
+      <!-- MUDANÇA: Rebalance → Guias de Missões -->
+      <button onclick="showSection('guias-missoes')" data-i18n="nav.guias_missoes">Guias de Missões</button>
+      <button onclick="showSection('dungeons')" data-i18n="nav.dungeons">Dungeons</button>
+      <button onclick="showSection('mapas')" data-i18n="nav.mapas">Mapas</button>
+      <button onclick="showSection('sistemas')" data-i18n="nav.sistemas">Sistemas</button>
+      <button onclick="showSection('npcs')" data-i18n="nav.npcs">NPCs & Lojas</button>
+      <button onclick="showSection('eventos')" data-i18n="nav.eventos">Eventos</button>
+      <button onclick="showSection('guias')" data-i18n="nav.guias">Change-log</button>
+    </div>
+
+    <div id="inicio" class="section active centered">
+      <h2 data-i18n="inicio.h2">Bem-vindo à Wiki DGO Brasil!</h2>
+      <p data-i18n="inicio.p1">Aqui você encontrará...</p>
+    </div>
+
+    <!-- ===== ÁREA DO NOVATO ===== -->
+    <div id="novato" class="section">
+      <h2 data-i18n="novato.h2">Área do Novato</h2>
+      <div class="novice-layout">
+        <div class="nav novice-nav">
+          <div hidden><button onclick="toggleNovato('novato-xp')" data-i18n="novato.tabs.xp">Mapa de XP & Localização</button></div>
+          <div><button onclick="toggleNovato('novato-seals')" data-i18n="novato.tabs.seals">Selos</button></div>
+          <div><button onclick="toggleNovato('novato-trans')" data-i18n="novato.tabs.trans">Transcendência de Digimons</button></div>
+          <div><button onclick="toggleNovato('novato-buffs')" data-i18n="novato.tabs.buffs">Onde trocar Buffs</button></div>
+        </div>
+        <div id="novice-content">
+          <figure id="novato-hero">
+            <img src="Guia_novato.png" data-i18n-attr="alt:alt.novato_banner" alt="Guia do Novato">
+          </figure>
+        </div>
+      </div>
+      <div id="novato-xp" class="novice-block"><div data-i18n-html="block.novato.xp"></div></div>
+      <div id="novato-seals" class="novice-block"><div data-i18n-html="block.novato.seals"></div></div>
+      <div id="novato-trans" class="novice-block"><div data-i18n-html="block.novato.trans"></div></div>
+      <div id="novato-buffs" class="novice-block"><div data-i18n-html="block.novato.buffs"></div></div>
+    </div>
+
+    <!-- ===== DIGIMONS ===== -->
+    <div id="digimons" class="section">
+      <h2>Banco de Dados de Digimons</h2>
+      <p>Esta aba agora redireciona diretamente para a página oficial dos Digimons.</p>
+      <p><a href="https://www.digimongalaxy.com/pages/Digimons/digimons/" target="_self" rel="noopener">Abrir página de Digimons</a></p>
+    </div>
+
+    <!-- ===== GUIAS DE MISSÕES (antigo Rebalance) ===== -->
+    <div id="guias-missoes" class="section">
+      <h2 data-i18n="guias_missoes.h2">Guias de Missões</h2>
+      <div class="event-hero">
+        <h3>Conteúdo em breve</h3>
+        <p class="notice"><strong>O conteúdo será inserido em breve.</strong></p>
+      </div>
+    </div>
+
+    <!-- ===== DUNGEONS ===== -->
+    <div id="dungeons" class="section">
+      <h2 data-i18n="dungeons.h2">Dungeons</h2>
+
+      <div class="dungeon-layout">
+        <div class="nav dungeon-nav">
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('royalbase')" data-i18n="dungeons.btn.royalbase">Royal Base</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('shoutmon-dx')" data-i18n="dungeons.btn.shoutmon">DG - Shoutmon DX</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('kizuna-dark')" data-i18n="dungeons.btn.kizuna">DG - Kizuna Dark</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('green-zone')" data-i18n="dungeons.btn.greenzone">DG - Green Zone</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('kaiser-lab')" data-i18n="dungeons.btn.kaiserlab">DG - Kaiser Laboratory</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('devimon')" data-i18n="dungeons.btn.devimon">DG - Crack Devimon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('myotismon')" data-i18n="dungeons.btn.myotismon">DG - Myotismon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('venommyotismon')" data-i18n="dungeons.btn.venom">DG - VenomMyotismon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('skullmeramon')" data-i18n="dungeons.btn.skull">DG - Skullmeramon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('nanomon')" data-i18n="dungeons.btn.nano">DG - Nanomon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('scar-water-crystal')" data-i18n="dungeons.btn.water">DG - Scar of Water Crystal</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('descending-thunder-god')" data-i18n="dungeons.btn.thunder">DG - Descending Thunder God</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('trace-black-steel')" data-i18n="dungeons.btn.steel">DG - Trace of Black Steel</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('fanglongmon-dungeon')" data-i18n="dungeons.btn.fang">DG - Fanglongmon Dungeon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('uprising-flame')" data-i18n="dungeons.btn.flame">DG - Uprising Flame</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('destruction-regeneration')" data-i18n="dungeons.btn.destr">DG - Destruction and Regeneration</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('chimairamon')" data-i18n="dungeons.btn.chim">DG - Chimairamon</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('dark-web')" data-i18n="dungeons.btn.dark">DG - Dark Web</button></div>
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('market-place')" data-i18n="dungeons.btn.mkt">DG - Market Place</button></div>
+          <!-- CORREÇÃO: i18n key corrigida para dungeons.btn.gk -->
+          <div class="dungeon-item"><button onclick="toggleDungeonInfo('Gankoomon')" data-i18n="dungeons.btn.gk">DG - Gankoomon</button></div>
+        </div>
+
+        <div id="dungeon-content">
+          <figure id="dungeon-hero" aria-label="Poster Dungeons">
+            <img src="Guias Dungeons.png" alt="Guias Dungeons">
+          </figure>
+        </div>
+      </div>
+
+      <div id="royalbase" class="digimon-info"><div data-i18n-html="block.royalbase"></div></div>
+      <div id="shoutmon-dx" class="digimon-info"><div data-i18n-html="block.shoutmon"></div></div>
+      <!-- CORREÇÃO: key corrigida de block.Kizuna para block.kizuna -->
+      <div id="kizuna-dark" class="digimon-info"><div data-i18n-html="block.kizuna"></div></div>
+      <div id="green-zone" class="digimon-info"><div data-i18n-html="block.greenzone"></div></div>
+      <div id="kaiser-lab" class="digimon-info"><div data-i18n-html="block.kaiserlab"></div></div>
+      <div id="devimon" class="digimon-info"><div data-i18n-html="block.devimon"></div></div>
+      <div id="myotismon" class="digimon-info"><div data-i18n-html="block.myotismon"></div></div>
+      <div id="venommyotismon" class="digimon-info"><div data-i18n-html="block.venom"></div></div>
+      <div id="skullmeramon" class="digimon-info"><div data-i18n-html="block.skull"></div></div>
+      <div id="nanomon" class="digimon-info"><div data-i18n-html="block.nano"></div></div>
+      <div id="scar-water-crystal" class="digimon-info"><div data-i18n-html="block.water"></div></div>
+      <div id="descending-thunder-god" class="digimon-info"><div data-i18n-html="block.thunder"></div></div>
+      <div id="trace-black-steel" class="digimon-info"><div data-i18n-html="block.steel"></div></div>
+      <div id="fanglongmon-dungeon" class="digimon-info"><div data-i18n-html="block.fang"></div></div>
+      <div id="uprising-flame" class="digimon-info"><div data-i18n-html="block.flame"></div></div>
+      <div id="destruction-regeneration" class="digimon-info"><div data-i18n-html="block.destr"></div></div>
+      <div id="chimairamon" class="digimon-info"><div data-i18n-html="block.chim"></div></div>
+      <div id="dark-web" class="digimon-info"><div data-i18n-html="block.dark"></div></div>
+      <div id="market-place" class="digimon-info"><div data-i18n-html="block.mkt"></div></div>
+      <div id="Gankoomon" class="digimon-info"><div data-i18n-html="block.gk"></div></div>
+    </div>
+
+    <div id="mapas" class="section">
+      <h2 data-i18n="mapas.h2">Mapas</h2>
+      <p data-i18n="mapas.p">Confira os mapas...</p>
+      <ul>
+        <li data-i18n="mapas.li1">DATS Center</li>
+        <li data-i18n="mapas.li2">D-Terminal</li>
+        <li data-i18n="mapas.li3">File Island</li>
+        <li data-i18n="mapas.li4">Odaiba</li>
+      </ul>
+    </div>
+
+    <div id="sistemas" class="section">
+      <h2 data-i18n="sistemas.h2">Sistemas</h2>
+      <p data-i18n="sistemas.p">Aqui você encontra...</p>
+    </div>
+
+    <div id="npcs" class="section">
+      <h2 data-i18n="npcs.h2">NPCs & Lojas</h2>
+      <p data-i18n="npcs.p">Lista de NPCs...</p>
+      <ul>
+        <li data-i18n="npcs.li1">Dorumon - Craft de itens especiais</li>
+        <li data-i18n="npcs.li2">Shoutmon - Evoluções e recompensas</li>
+        <li data-i18n="npcs.li3">Andromon - Acesso a Dungeons</li>
+      </ul>
+    </div>
+
+    <div id="eventos" class="section">
+      <h2 data-i18n="eventos.h2">Eventos</h2>
+      <img id="rafflesimon-event-cameo" class="rafflesimon-event-cameo" src="guia-transcendência/Rafflesimon.png" alt="" aria-hidden="true">
+      <img id="mamemon-event-cameo" class="mamemon-event-cameo" src="guia-transcendência/Mamemon_Copa.png" alt="" aria-hidden="true">
+      <img id="kizunas-event-cameo" class="kizunas-event-cameo" src="Kizunas.png" alt="" aria-hidden="true">
+      <div class="event-layout">
+        <div class="nav event-nav">
+          <div><button onclick="toggleEvento('evento-namorados-2026')" data-i18n="eventos.btn.namorados2026">💖 Dia dos Namorados 2026</button></div>
+          <div><button onclick="toggleEvento('evento-copa-mundo-2026')" data-i18n="eventos.btn.copa2026">🏆 Copa do Mundo 2026</button></div>
+          <div><button onclick="toggleEvento('evento-kizunas')" data-i18n="eventos.btn.kizunas">✨ Kizunas</button></div>
+        </div>
+
+        <div id="event-content">
+          <div id="event-hero" class="event-hero">
+            <h3>Eventos do Digital Galaxy</h3>
+            <p>Selecione um evento para ver todos os detalhes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="evento-namorados-2026" class="event-block"><div data-i18n-html="block.eventos.namorados2026"></div></div>
+      <div id="evento-copa-mundo-2026" class="event-block"><div data-i18n-html="block.eventos.copa2026"></div></div>
+      <div id="evento-kizunas" class="event-block"><div data-i18n-html="block.eventos.kizunas"></div></div>
+    </div>
+
+    <div id="guias" class="section">
+      <h2 data-i18n="guias.h2">Change-log</h2>
+      <p data-i18n="guias.p">Atualizações publicadas no canal oficial do Discord.</p>
+      <div class="changelog-toolbar">
+        <span id="changelog-status" class="changelog-status" aria-live="polite">Carregando atualizações...</span>
+        <div class="changelog-actions">
+          <button type="button" onclick="loadDiscordChangeLog(true)">Atualizar</button>
+          <a class="changelog-discord-link" href="https://discord.com/channels/1373314901145292932/1373314902977937451" target="_blank" rel="noopener noreferrer">Abrir canal no Discord</a>
+        </div>
+      </div>
+      <div id="changelog-list" class="changelog-list" aria-live="polite">
+        <div class="changelog-empty"><p>Carregando atualizações...</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL DIGIMON ===== -->
+  <div id="digimon-modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+      <div id="evoZoomOverlay" class="evo-zoom-overlay" aria-hidden="true">
+        <div class="evo-zoom-panel">
+          <div class="evo-zoom-topbar">
+            <div class="evo-zoom-title">Linha Evolutiva (zoom)</div>
+            <button id="evoZoomClose" class="evo-zoom-close" type="button" aria-label="Fechar zoom">FECHAR ✕</button>
+          </div>
+          <div class="evo-zoom-canvas">
+            <img id="evoZoomImg" alt="Linha evolutiva ampliada">
+          </div>
+        </div>
+      </div>
+      <div class="modal-header">
+        <h2 id="modal-name">Nome do Digimon</h2>
+        <button class="btn-close" type="button" onclick="closeModal()">FECHAR ✕</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="dmo-image-box">
+            <img id="modal-img" alt="Digimon">
+          </div>
+          <div style="margin-top:12px; text-align:center;">
+            <span class="chip" id="modal-id" style="display:none;">ID: 00000</span>
+          </div>
+          <div class="stats-grid left-extra">
+            <div class="stat-item">
+              <span class="stat-label">Locais</span>
+              <span class="stat-value multiline" id="modal-locais" style="text-align:left; display: inline-block; min-width: 120px; max-width: none; white-space: pre-line;">-</span>
+            </div>
+            <div class="stat-item evo-line-trigger">
+              <span class="stat-label">Linha evolutiva</span>
+              <span class="stat-value multiline" id="modal-linha" style="text-align:left; display: inline-block; min-width: 120px; max-width: none; white-space: pre-line;">-</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Status Base</h3>
+          <div class="stats-grid">
+            <div class="stat-item"><span class="stat-label">HP (Vida)</span><span class="stat-value hp" id="modal-hp">0</span></div>
+            <div class="stat-item"><span class="stat-label">DS (Mana)</span><span class="stat-value ds" id="modal-ds">0</span></div>
+            <div class="stat-item"><span class="stat-label">AT (Ataque)</span><span class="stat-value at" id="modal-at">0</span></div>
+            <div class="stat-item"><span class="stat-label">AS (Velocidade)</span><span class="stat-value" id="modal-as">0</span></div>
+            <div class="stat-item"><span class="stat-label">DE (Defesa)</span><span class="stat-value" id="modal-de">0</span></div>
+            <div class="stat-item"><span class="stat-label">EV (Evasão)</span><span class="stat-value" id="modal-ev">0</span></div>
+            <div class="stat-item"><span class="stat-label">CR (Crítico)</span><span class="stat-value" id="modal-cr">0</span></div>
+            <div class="stat-item"><span class="stat-label">HT (Precisão)</span><span class="stat-value" id="modal-ht">0</span></div>
+          </div>
+          <h3 style="margin-top:18px;">Informações Gerais</h3>
+          <div class="stats-grid">
+            <div class="stat-item"><span class="stat-label">Rank</span><span class="stat-value" id="modal-rank">-</span></div>
+            <div class="stat-item"><span class="stat-label">Atributo</span><span class="stat-value" id="modal-attr">-</span></div>
+            <div class="stat-item"><span class="stat-label">Elemento</span><span class="stat-value" id="modal-elem">-</span></div>
+            <div class="stat-item"><span class="stat-label">Família</span><span class="stat-value" id="modal-family">-</span></div>
+            <div class="stat-item"><span class="stat-label">Forma</span><span class="stat-value" id="modal-form">-</span></div>
+            <div class="stat-item"><span class="stat-label">Nível de Desbloqueio</span><span class="stat-value" id="modal-baselevel">-</span></div>
+            <div class="stat-item"><span class="stat-label">Evolução</span><span class="stat-value" id="modal-evo">-</span></div>
+          </div>
+          <div class="stat-item" style="margin-top:14px; margin-bottom:12px;">
+            <span class="stat-label">Imagem da Linha Evolutiva</span>
+            <div class="evo-line-zoom" tabindex="0" title="Passe o mouse na imagem para ampliar">
+              <img id="modal-evoLineImg" alt="Linha evolutiva" style="display: none;">
+            </div>
+          </div>
+          <h3 style="margin-top:20px;">Informações adicionais</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Item (desbloqueio de evolução)</span>
+              <div class="unlock-row">
+                <div class="unlock-text">
+                  <span class="stat-value multiline" id="modal-unlockitem">-</span>
+                </div>
+                <img id="modal-unlockitemImg" class="unlock-img" alt="" style="display:none;" />
+              </div>
+            </div>
+          </div>
+          <div class="notes-box">
+            <div class="notes-title">Informações</div>
+            <div class="notes-content" id="modal-notes">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="image-zoom-overlay" class="image-zoom-overlay" aria-hidden="true">
+    <div class="image-zoom-panel" role="dialog" aria-modal="true" aria-labelledby="image-zoom-title">
+      <div class="image-zoom-topbar">
+        <div id="image-zoom-title" class="image-zoom-title">Visualização ampliada</div>
+        <button class="image-zoom-close" type="button" onclick="closeImageZoom()">FECHAR ✕</button>
+      </div>
+      <div class="image-zoom-canvas">
+        <img id="image-zoom-img" alt="">
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== MASCOTE INTERATIVO - ÁREA DO NOVATO ===== -->
+  <div class="mascote-box" id="mascoteBox" aria-live="polite">
+    <button class="mascote-fechar" type="button" onclick="fecharMascote()" aria-label="Fechar mascote">×</button>
+
+    <div class="mascote-balao" id="mascoteResposta">
+      Olá, Tamer! Eu sou Gracenovamon seu guia inicial. Escolha uma opção abaixo para receber uma dica rápida.
+    </div>
+
+    <!-- Troque o caminho abaixo caso sua imagem/gif tenha outro nome -->
+    <img src="guia-transcendência/Gracenovamon.png" alt="Gracenovamon Mascote" class="mascote-img">
+    
+
+    <div class="mascote-botoes">
+      <button type="button" onclick="responderMascote('inicio')">Como começar?</button>
+      <button type="button" onclick="responderMascote('xp')">Onde upar?</button>
+      <button type="button" onclick="responderMascote('selos')">Como funcionam os selos?</button>
+      <button type="button" onclick="responderMascote('trans')">O que é transcendência?</button>
+      <button type="button" onclick="responderMascote('buffs')">Onde troco buffs?</button>
+    </div>
+  </div>
+
+
+  <!-- ===== PORTAL OVERLAY ===== -->
+  <div id="portal-overlay" aria-hidden="true">
+    <div class="door door-left"></div>
+    <div class="door door-right"></div>
+    <div class="glyphs glyphs-left"></div>
+    <div class="glyphs glyphs-right"></div>
+  </div>
+
+<script>
+
+  // ===== MASCOTE INTERATIVO - ÁREA DO NOVATO =====
+  const respostasMascote = {
+    inicio: "Para começar, siga as missões iniciais, escolha bem seu Digimon principal e use a Área do Novato como rota de progressão.",
+    xp: "Para upar, vá para file island e complete as missões até chegar no mapa de WaterFront lá poderá upar seu Digimon até o nível 100. Depois disso, siga com as quests   e continue evoluindo.",
+    selos: "Selos aumentam seus status. Para usar, você precisa de Seal Openers. O ideal é abrir selos em blocos de 50 para economizar recursos. Confira a aba Selos para mais detalhes.",
+    trans: "A transcendência permite fortalecer seu Digimon após atingir os requisitos. Você sacrifica outros Digimons para preencher a EXP até 100%. Confira a aba Transcendência para mais informações.",
+    buffs: "Você pode trocar itens e buffs em DATS Center, principalmente no NPC Merukimon. Confira a aba Troca de Itens para ver os detalhes."
+  };
+
+  function responderMascote(tipo) {
+    const balao = document.getElementById("mascoteResposta");
+    if (!balao) return;
+
+    balao.style.opacity = "0";
+    balao.style.transform = "translateY(4px)";
+
+    setTimeout(() => {
+      balao.textContent = respostasMascote[tipo] || "Ainda não tenho essa resposta cadastrada.";
+      balao.style.opacity = "1";
+      balao.style.transform = "translateY(0)";
+    }, 180);
+  }
+
+  function fecharMascote() {
+    const mascote = document.getElementById("mascoteBox");
+    if (mascote) mascote.style.display = "none";
+  }
+
+  function resetarMascoteNovato() {
+    const mascote = document.getElementById("mascoteBox");
+    const balao = document.getElementById("mascoteResposta");
+
+    if (mascote) mascote.style.display = "";
+    if (balao) {
+      balao.textContent = "Olá, Tamer! Eu sou seu guia inicial. Escolha uma opção abaixo para receber uma dica rápida.";
+      balao.style.opacity = "1";
+      balao.style.transform = "translateY(0)";
+    }
+  }
+
+
+  const I18N = {
+    pt: {
+      "site.title": "Digimon Galaxy - Wiki DGO",
+      "site.h1": "Digimon Galaxy Wiki",
+      "lang.label": "Idioma:",
+      "lang.pt": "🇧🇷 Português",
+
+      "nav.inicio": "Início",
+      "nav.novato": "Área do Novato",
+      "nav.digimons": "Digimons",
+      // MUDANÇA: nova chave para Guias de Missões
+      "nav.guias_missoes": "Guias de Missões",
+      "nav.dungeons": "Dungeons",
+      "nav.mapas": "Mapas",
+      "nav.sistemas": "Sistemas",
+      "nav.npcs": "NPCs & Lojas",
+      "nav.eventos": "Eventos",
+      "nav.guias": "Change-log",
+
+      "inicio.h2": "Bem-vindo à Wiki DGO Brasil!",
+      "inicio.p1": "Aqui você encontrará todas as informações atualizadas sobre o Digital Galaxy: digimons, sistemas, mapas, dicas, além de conteúdos exclusivos do servidor.",
+      "novato.h2": "Área do Novato",
+      "novato.tabs.xp": "Mapa de XP & Localização",
+      "novato.tabs.seals": "Selos",
+      "novato.tabs.trans": "Transcendência de Digimons",
+      "novato.tabs.buffs": "Troca de itens",
+
+      // MUDANÇA: título da seção
+      "guias_missoes.h2": "Guias de Missões",
+
+      "alt.logo": "Logo Digital Galaxy",
+      "alt.novato_banner": "Guia do Novato",
+      "alt.gallantx": "Gallantmon X",
+      "alt.mapverdandi": "Mapa Verdandi",
+      "alt.rb1": "Royal Base etapa 1",
+      "alt.rb2": "Royal Base etapa 2",
+      "alt.dx": "DG Shoutmon DX",
+      "alt.kizuna_agumon": "Agumon Kizuna",
+      "alt.greenzone": "Green Zone",
+      "alt.kaiserlab_easy": "Kaiser Laboratory (Modo Fácil)",
+      "alt.kaiserlab_normal": "Kaiser Laboratory (Modo Normal)",
+      "alt.dono": "Dono do Servidor",
+      "alt.andromon": "Andromon",
+      "alt.map_devimon": "Mapa Devimon",
+      "alt.devimon_normal": "Crack of Devimon (Normal)",
+      "alt.devimon_hard": "Crack of Devimon (Hard)",
+      "alt.myot_easy": "Myotismon (Easy)",
+      "alt.myot_normal": "Myotismon (Normal)",
+      "alt.map_odaiba": "Mapa Odaiba",
+      "alt.venom_easy": "VenomMyotismon (Easy)",
+      "alt.venom_normal": "VenomMyotismon (Normal)",
+      "alt.guide izzy": "Guide Izzy",
+      "alt.mapa nanomon": "Mapa Nanomon",
+      "alt.nano_DG_Easy": "Nanomon DG (Easy)",
+      "alt.nano_normal": "Nanomon DG (Normal)",
+      "alt.Dono Susamaru": "Dono do Servidor Susamaru",
+      "alt.Renamon_Exchange": "NPC Renamon Exchange",
+      "alt.Lopmon_Guides": "Lopmon - Guides",
+      "alt.DG_Xuan_Easy": "Xuanwumon DG (Easy)",
+      "alt.DG_Xuan_NORMAL": "Xuanwumon DG (Normal)",
+      "alt.DG_Xuan_Hard": "Xuanwumon DG (Hard)",
+
+      "digimons.h2": "Digimons",
+      "digimons.p": "Pesquise e filtre a lista de Digimons abaixo.",
+
+      "dungeons.h2": "Dungeons",
+      "dungeons.btn.royalbase": "Royal Base",
+      "dungeons.btn.shoutmon": "DG - Shoutmon DX",
+      "dungeons.btn.kizuna": "DG - Kizuna Dark",
+      "dungeons.btn.greenzone": "DG - Green Zone",
+      "dungeons.btn.kaiserlab": "DG - Kaiser Laboratory",
+      "dungeons.btn.devimon": "DG - Crack Devimon",
+      "dungeons.btn.myotismon": "DG - Myotismon",
+      "dungeons.btn.venom": "DG - VenomMyotismon",
+      "dungeons.btn.skull": "DG - Skullmeramon",
+      "dungeons.btn.nano": "DG - Nanomon",
+      "dungeons.btn.water": "DG - Scar of Water Crystal",
+      "dungeons.btn.thunder": "DG - Descending Thunder God",
+      "dungeons.btn.steel": "DG - Trace of Black Steel",
+      "dungeons.btn.fang": "DG - Fanglongmon Dungeon",
+      "dungeons.btn.flame": "DG - Uprising Flame",
+      "dungeons.btn.destr": "DG - Destruction and Regeneration",
+      "dungeons.btn.chim": "DG - Chimairamon",
+      "dungeons.btn.dark": "DG - Dark Web",
+      "dungeons.btn.mkt": "DG - Market place",
+      // CORREÇÃO: chave do Gankoomon adicionada
+      "dungeons.btn.gk": "DG - Gankoomon",
+
+      "mapas.h2": "Mapas",
+      "mapas.p": "Confira os mapas disponíveis e suas conexões.",
+      "mapas.li1": "DATS Center",
+      "mapas.li2": "D-Terminal",
+      "mapas.li3": "File Island",
+      "mapas.li4": "Odaiba",
+      "sistemas.h2": "Sistemas",
+      "sistemas.p": "Aqui você encontra detalhes sobre sistemas do jogo, como evolução, atributos e reforço de equipamentos.",
+      "npcs.h2": "NPCs & Lojas",
+      "npcs.p": "Lista de NPCs importantes e o que cada um oferece.",
+      "npcs.li1": "Dorumon - Craft de itens especiais",
+      "npcs.li2": "Shoutmon - Evoluções e recompensas",
+      "npcs.li3": "Andromon - Acesso a Dungeons",
+      "eventos.h2": "Eventos",
+      "eventos.p": "Fique de olho nos eventos atuais e passados para aproveitar ao máximo o jogo.",
+      "eventos.btn.namorados2026": "💖 Dia dos Namorados 2026",
+      "eventos.btn.copa2026": "🏆 Copa do Mundo 2026",
+      "eventos.btn.kizunas": "✨ Kizunas",
+      "guias.h2": "Change-log",
+      "guias.p": "Atualizações publicadas no canal oficial do Discord.",
+
+      "block.novato.xp": `
+        <h3>Mapa de XP</h3>
+        <p class="notice"><strong>Nota:</strong> O mapa de XP fica liberado 24 horas nos finais de semana.</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nível Tamer</th>
+              <th>Nível Digimon</th>
+              <th>Localização</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1–120</td>
+              <td>1–120</td>
+              <td><span class="chip">DATS Center</span></td>
+              <td>O mapa dropa box de <b>Amplification Boosters</b> (Item para maior ganho de xp).</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Fale com o NPC Agumon para entrar no mapa</p>
+        <div class="images">
+          <img src="Mapa_dats.png" alt="Mapa DATS" style="width:45%;">
+          <img src="Mapa_dats_2.png" alt="Mapa DATS 2" style="width:85%;">
+          <img src="Agumon_xp.png" alt="Agumon XP" style="width:45%;">
+          <img src="Map_xp.png" alt="Mapa XP" style="width:85%;">
+        </div>
+        <p><b>Dicas rápidas:</b> jogue em <em>party</em> para bônus de XP, use
+          <span class="chip">Amplification Booster</span> e roupas como <span class="chip">yellow soccer</span> entre outras que contenham bônus de xp.
+        </p>
+      `,
+
+      "block.novato.seals": `
+        <h3>Selos</h3>
+        <p>Serão uma parte muito importante para sua progressão dentro do digimundo. Você poderá dropar selos pelos mapas derrotando outros digimons, lembre-se que para que seja possível utilizar os selos é preciso possuir o item <b>seal opener</b>, e para que possa usar o poder total do selo é preciso ter a quantidade de 3000 selos abertos.</p>
+        <div class="notice">
+          <p><b>Importante:</b> Alguns selos são farmáveis apenas através de eventos.</p>
+          <p><b>Observação:</b> Em nosso servidor você poderá dropar de 1 a 3 selos por mob.</p>
+          <p><b>Dica:</b> O ideal para realizar a abertura de selos é de 50 em 50 assim otimizando o uso dos seal openers.</p>
+        </div>
+        <p>Para visualizar os selos que já foram abertos, aperte a tecla <b>T</b>. Em seguida será exibida a tela com todos os selos:</p>
+        <div class="images">
+          <img src="Tela_selos.png" alt="Tela de Selos" style="width:65%;">
+        </div>
+        <p>Nessa aba você poderá visualizar o <b>poder total</b> que você obtém com selos abertos:</p>
+        <div class="images">
+          <img src="Poder_total_selos.png" alt="Poder total selos" style="width:65%;">
+        </div>
+        <p>Passando o mouse sobre o selo, é possível verificar a <b>quantidade de poder</b> atual e, caso ainda não tenha fechado os 3000, quanto falta para o próximo nível:</p>
+        <div class="images">
+          <img src="Selo_soulmon.png" alt="Exemplo selo" style="width:65%;">
+        </div>
+        <p>Na aba localizada à esquerda é possível verificar os selos que dropam em cada mapa. Selecione a região e o mapa para ver os selos correspondentes:</p>
+        <div class="images">
+          <img src="Loc_selos.png" alt="Localização selos" style="width:65%;">
+        </div>
+      `,
+
+      "block.novato.trans": `
+        <h3>Transcendência de Digimons</h3>
+        <p>Você pode acessar a aba de Transcendência pelo Digimon Archive. Quando estiver no menu, clique com o botão esquerdo no Digimon que deseja transcender e que está no seu slot de mercenário.</p>
+        <p>Depois de inserir o Digimon, será possível ver a barra de EXP dentro do menu. O objetivo é aumentar essa EXP até 100%, sacrificando outros Digimons do seu arquivo. Você pode sacrificar até 10 Digimons ao mesmo tempo, e a EXP recebida dependerá do nível de hatch, nível do Digimon e nível de DigiClon dos Digimons sacrificados. A quantidade de EXP será mostrada quando o Digimon sacrificado for selecionado.</p>
+        <p>Depois de selecionar todos os Digimons, você poderá escolher uma de duas opções de Charge para confirmar o sacrifício. É necessário 1 Transcendence ConvertChip para cada Digimon. Ou seja, se 10 Digimons forem sacrificados ao mesmo tempo, serão necessários 10 Transcendence ConvertChips no total.</p>
+        <p>Quando a EXP atingir 100%, a opção de transcender seu Digimon ficará disponível. Será cobrado um custo de 5T para realizar a transcendência.</p>
+        <div class="images">
+          <img src="guia-transcendência/sistema_transcendencia.png" alt="Sistema de transcendência" style="width:70%;">
+        </div>
+        <h3>Nota Importante</h3>
+        <ul>
+          <li><b>Regular Charge</b> requer <b>Low Class Transcendence ConvertChip</b>.</li>
+          <li><b>Hyper Charge</b> requer <b>Mid Class Transcendence ConvertChip</b>. Essa opção concede mais <b>EXP</b> do que o <b>Regular Charge</b>.</li>
+          <li>Os <b>Transcendence ConvertChips</b>, tanto os de classe <b>Low</b> quanto os de classe <b>Mid</b>, são divididos em vários grupos, de forma semelhante aos itens de Data usados no hatch.</li>
+          <li>O <b>Low Class</b> Transcendence ConvertChip pode ser obtido através do <b>NPC - Nanomon Item Craft</b>, em Dats Center.</li>
+          <li>O <b>Mid Class Transcendence ConvertChip</b> pode ser obtido no <b>Cash Shop</b>.</li>
+        </ul>
+        <div class="images">
+          <img src="guia-transcendência/Convert_chips.png" alt="Chips Conversores" style="width:50%;">
+        </div>
+        <h3>Itens necessários para aumento de tamanho do Digimon</h3>
+        <p>Depois de transcendido, o Digimon não poderá mais consumir Fruits comuns. Em vez disso, ele só poderá consumir as frutas exclusivas de Transcendência:</p>
+        <p><b>Fruto de Yggdrasil:</b> o tamanho do Digimon muda aleatoriamente entre 125% ~ 140%.</p>
+        <div class="images">
+          <img src="guia-transcendência/Yggdrasil_Fruit.png" alt="Fruta de Transcendência do deus" style="width:10%;">
+        </div>
+        <p><b>Fruto da Homeostase:</b> o tamanho do Digimon muda aleatoriamente entre 128% ~ 140%.</p>
+        <div class="images">
+          <img src="guia-transcendência/Fruit_of_Homeostasis.png" alt="Fruta de Transcendência da Deusa" style="width:10%;">
+        </div>
+        <h3>Experiência obtida ao sacrificar</h3>
+        <ul>
+          <li>Digimon 4/5 dão 1/4 de experiência em comparação com Digimons 5/5.</li>
+          <li>Digimons 3/5 dão 1/40 da experiência em comparação com Digimons 5/5.</li>
+          <li>O clonamento não escala com o nível, mas escala com a fase de hatch. Clonar 1 atributo para 6/15 adiciona aproximadamente 0,856% de EXP.</li>
+          <li>Digimons da mesma espécie dão 3 vezes mais experiência do que Digimons de espécies diferentes.</li>
+          <li>Um Digimon 5/5 no nível 1 concede 7,17% de EXP.</li>
+          <li>O Hyper Charge aumenta a experiência em 60%. Por exemplo, um Digimon 5/5 no nível 1 dará 11,47% de EXP com Hyper Charge, em comparação com 7,17% usando Regular Charge.</li>
+          <li>Existe uma chance aleatória de receber EXP em dobro, tanto com Regular Charge quanto com Hyper Charge.</li>
+        </ul>
+        <h3>Nota</h3>
+        <p>O Raremon é uma linha especial de Digimon que sempre concede uma quantidade fixa de EXP, independentemente do clonamento e do nível.</p>
+        <div class="images">
+          <img src="guia-transcendência/Raremon_(Mega)_Icon.png" alt="Ícone Raremon" style="width:10%;">
+        </div>
+        <ul>
+          <li>Raremon 3/5 sempre concede 2,24% de EXP com Regular Charge, ou 3,58% com Hyper Charge.</li>
+          <li>Raremon 4/5 sempre concede 16,82% de EXP com Regular Charge, ou 26,91% com Hyper Charge.</li>
+          <li>Raremon 5/5 sempre concede 44,85% de EXP com Regular Charge, ou 71,76% com Hyper Charge.</li>
+        </ul>
+      `,
+
+      "block.novato.buffs": `
+        <h3>Troca de itens</h3>
+        <ul><li><b>DATS Center — NPC Merukimon</b></li></ul>
+        <div class="images">
+          <img src="Trocas_de_buff.png" alt="Trocas de Buff" style="width:30%;">
+        </div>
+        <h3>Troca de Buffs</h3>
+        <p>Vá até a opção troca de buffs e escolha o buff ao qual deseja trocar. Lembre-se: você pode trocar <span class="chip">Shiny Crystals</span> por buffs de AT 50%. Shiny Crystals dropam nas DGs das bestas.</p>
+        <div class="images">
+          <img src="menu_troca_buffs.png" alt="Menu troca de buffs" style="width:75%;">
+        </div>
+        <ul>
+          <li><span class="chip">Scar of Water</span> — Shiny Crystals dropáveis na dungeon do Xuanwumon</li>
+          <li><span class="chip">Uprising Flame</span> — Shiny Crystals dropáveis na dungeon do Zhuqiaomon</li>
+          <li><span class="chip">Trace of Black Steel</span> — Shiny Crystals dropáveis na dungeon do Baihumon</li>
+          <li><span class="chip">Descending Thunder</span> — Shiny Crystals dropáveis na dungeon do Qinglongmon</li>
+        </ul>
+        <h3>Digicore</h3>
+        <p>Nesta aba você poderá trocar seus digicores por rare coins, que servem para roletar as rare machines da vila do início.</p>
+        <div class="images">
+          <img src="digicore_rarecoin.png" alt="Digicore rare coin" style="width:75%;">
+        </div>
+        <h3>Crude Rusty Bracelet</h3>
+        <p>Nesta aba você poderá trocar 20 RK Vouchers por um Crude Rusty Bracelet que é o item inicial necessário para craftar o bracelete da royal base. (Os RK Vouchers dropam na dungeon royal base).</p>
+        <div class="images">
+          <img src="crude_bracelet.png" alt="Crude bracelet" style="width:75%;">
+        </div>
+        <p class="notice"><b>Lembre-se de sempre trocar seus buffs</b></p>
+      `,
+
+      "block.royalbase": `
+        <p><strong>DG ROYAL BASE</strong></p>
+        <p><strong>Pré-requisitos:</strong></p>
+        <ul><li>Faça todas as quests roxas do mapa de Verdandi (as quests do Hackmon não são necessárias).</li></ul>
+        <p><strong>Como acessar:</strong></p>
+        <p>Fale com o NPC Gallantmon X e pegue as quests diárias onde precisará matar os Raptordramon como recompensa obterá <strong>3x PASSES NORMAIS e 3x PASSES FÁCEIS (DIÁRIOS)</strong></p>
+        <div class="images">
+          <img src="GallantX.png" data-i18n-attr="alt:alt.gallantx" style="width:40%;">
+          <img src="Map_Verdandi.png" data-i18n-attr="alt:alt.mapverdandi" style="width:40%;">
+        </div>
+        <p class="notice"><strong>Nota:</strong> Lembre-se dessas regras enquanto estiver batalhando dentro da dungeon.</p>
+        
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Quando essa mecânica aparecer, todos os membros da party devem se juntar dentro da área da skill para dividir o dano entre si. Quanto mais jogadores estiverem dentro do círculo, menor será o dano recebido por cada um.</p>
+        <p><b>Exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 40.000 de dano</li>
+        <li>2 jogadores no círculo: 20.000 de dano para cada um</li>
+        <li>4 jogadores no círculo: 10.000 de dano para cada um</li>
+        </ul>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Verde.png" alt="Circulo_Verde" style="width:60%;">
+        </div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Quando essa mecânica aparecer, você deve se afastar dos demais membros da party para receber o menor dano possível. Se dois ou mais jogadores ficarem próximos entre si dentro da área da skill, o dano será multiplicado conforme a quantidade de pessoas agrupadas.</p>
+        <p><b>exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 10.000 de dano</li>
+        <li>2 jogadores juntos: 20.000 de dano</li>
+        <li>3 jogadores juntos: 30.000 de dano</li>
+        <li>4 jogadores juntos: 40.000 de dano</li>
+        </ul> 
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Preto.png" alt="Circulo_Preto" style="width:60%;">
+        </div>    
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Esse círculo vermelho funciona de forma diferente das outras mecânicas. Na maioria das vezes, ele pode ser esquivado, então o ideal é sair da área para evitar o dano e, principalmente, o debuff aplicado pela skill.</p>
+        <p>Caso você seja atingido de surpresa, além do dano, ainda poderá receber um efeito negativo que pode atrapalhar bastante durante a luta.
+
+        <p>Em algumas dungeons, essa mecânica pode acontecer várias vezes seguidas como parte de uma sequência</p>
+        <p><b>Exemplo:</b></p> 
+        <p>Na dungeon do VenomMyotismon, aos 70% de vida, esse círculo pode ser lançado 5 vezes consecutivas. Após essa sequência, normalmente vem a mecânica de stackar e depois a de dispersar.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Vermelho.png" alt="Circulo_Vermelho" style="width:60%;">
+        </div> 
+        
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Ao aparecer essa mecânica, o ideal é evitar a área imediatamente, pois ser atingido por ela normalmente resulta em morte instantânea (HK).
+
+        Na maioria dos casos, não há redução de dano ou forma de sobreviver tomando essa skill de frente. Por isso, é essencial ficar atento ao posicionamento e reagir rapidamente para não ser eliminado.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_HK.png" alt="Circulo_HK" style="width:60%;">
+        </div>
+
+        <p><strong>Modo Normal</strong></p>
+        <p>Essa dungeon é composta por 3 salas diferentes. Se você morrer dentro desse mapa, não será expulso da dungeon. Enquanto permanecer nela, você ficará sob o efeito do debuff X-Program.</p>
+        <h3>Royal Base</h3>
+        <p>Ao entrar, você começa nesta primeira sala. Para avançar para a segunda, o grupo precisa derrotar 3 chefes escolhidos aleatoriamente dentre estes: <b>Craniamon</b>, <b>Dynasmon</b>, <b>Examon</b>, <b>LordKnightmon</b>, <b>Sleipmon</b> e <b>UlforceVeedramon</b>.</p>
+        <p>Durante cada luta nessa sala, um efeito aleatório fica ativo até o fim do combate. O efeito depende da cor do cristal no centro da sala:</p>
+        <ul>
+          <li><b>Cinza:</b> velocidade de movimento reduzida em 10%</li>
+          <li><b>Vermelho:</b> dano do ataque normal reduzido em 10%</li>
+          <li><b>Laranja:</b> dano das skills reduzido em 10%</li>
+          <li><b>Verde:</b> dano recebido reduzido em 10%</li>
+          <li><b>Roxo:</b> dano recebido aumentado em 10%</li>
+          <li><b>Rosa:</b> você sofre 100 de dano a cada 10 segundos</li>
+        </ul>
+        <h3>Centro da Royal Base</h3>
+        <p>Essa sala é dividida em 3 zonas. Ao entrar, o grupo precisa derrotar 2 Gates. Durante essa luta, vários DexDoruGreymon são invocados. Depois que os Gates caem, abrem-se 1 portal: que leva ao raid boss <b>DexDorugoramon</b>.</p>
+        <p>Quanto mais DexDoruGreymon existirem no mapa, mais forte o boss fica. Além disso, ao enfrentar o boss, o grupo recebe um debuff que:</p>
+        <ul>
+          <li>Reduz o dano de ataque</li>
+          <li>Aumenta em 50% o dano recebido</li>
+        </ul>
+        <h3>Yggdrasil's Room</h3>
+        <p>A última sala é mais direta: nela você enfrenta o raid boss <b>Dexmon</b>. A página avisa que ele ataca imediatamente assim que você entra, então o ideal é entrar já preparado.</p>
+        <h3>Recompensas:</h3>
+        <div class="images">
+          <img src="guia-transcendência/ROYAL_BASE_NORMAL.png" alt="Fruta de Transcendência da Deusa" style="width:80%;">
+        </div>
+        <br>
+        <p>Após isso, fale com a NPC Miki para sair da dungeon.</p>
+      `,
+
+      "block.shoutmon": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      // CORREÇÃO: chave era "block.Kizuna" (K maiúsculo) — corrigida para "block.kizuna"
+      "block.kizuna": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.greenzone": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.kaiserlab": `
+        <p>Um lugar criado para realizar experimentos com Chimairamon. Uma área onde a evolução dos Digimons é restringida por causa da Dark Tower construída pelo Digimon Kaiser.</p>
+        <p>Para entrar nesta dungeon, é necessário ter 1 <b>Kaiser's Laboratory Warp Gate [E-N]</b>. Esse item pode ser obtido como drop de qualquer inimigo dentro do mapa <b>Dark Tower Wasteland</b>.</p>
+        <p><strong>Somente digimons Armors podem se manter evoluídos dentro da DG</strong></p>
+        <p><strong>Como acessar:</strong></p>
+        <ul><li>Fale com o Digimon Kaiser localizado no D-Terminal</li><li>As entradas são limitadas à quantidade que dropar</li><li>Entre na DG, derrote Kimeramon</li></ul>
+        <p class="notice"><strong>Nota:</strong> Lembre-se dessas regras enquanto estiver batalhando dentro da dungeon.</p>
+        
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Quando essa mecânica aparecer, todos os membros da party devem se juntar dentro da área da skill para dividir o dano entre si. Quanto mais jogadores estiverem dentro do círculo, menor será o dano recebido por cada um.</p>
+        <p><b>Exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 40.000 de dano</li>
+        <li>2 jogadores no círculo: 20.000 de dano para cada um</li>
+        <li>4 jogadores no círculo: 10.000 de dano para cada um</li>
+        </ul>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Verde.png" alt="Circulo_Verde" style="width:60%;">
+        </div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Quando essa mecânica aparecer, você deve se afastar dos demais membros da party para receber o menor dano possível. Se dois ou mais jogadores ficarem próximos entre si dentro da área da skill, o dano será multiplicado conforme a quantidade de pessoas agrupadas.</p>
+        <p><b>exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 10.000 de dano</li>
+        <li>2 jogadores juntos: 20.000 de dano</li>
+        <li>3 jogadores juntos: 30.000 de dano</li>
+        <li>4 jogadores juntos: 40.000 de dano</li>
+        </ul> 
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Preto.png" alt="Circulo_Preto" style="width:60%;">
+        </div>    
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Esse círculo vermelho funciona de forma diferente das outras mecânicas. Na maioria das vezes, ele pode ser esquivado, então o ideal é sair da área para evitar o dano e, principalmente, o debuff aplicado pela skill.</p>
+        <p>Caso você seja atingido de surpresa, além do dano, ainda poderá receber um efeito negativo que pode atrapalhar bastante durante a luta.
+
+        <p>Em algumas dungeons, essa mecânica pode acontecer várias vezes seguidas como parte de uma sequência</p>
+        <p><b>Exemplo:</b></p> 
+        <p>Na dungeon do VenomMyotismon, aos 70% de vida, esse círculo pode ser lançado 5 vezes consecutivas. Após essa sequência, normalmente vem a mecânica de stackar e depois a de dispersar.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Vermelho.png" alt="Circulo_Vermelho" style="width:60%;">
+        </div> 
+        
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Ao aparecer essa mecânica, o ideal é evitar a área imediatamente, pois ser atingido por ela normalmente resulta em morte instantânea (HK).
+
+        Na maioria dos casos, não há redução de dano ou forma de sobreviver tomando essa skill de frente. Por isso, é essencial ficar atento ao posicionamento e reagir rapidamente para não ser eliminado.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_HK.png" alt="Circulo_HK" style="width:60%;">
+        </div>
+        <h3>Modo Easy:<h3>
+        <ul>
+          <p><strong>Informações do Boss:</strong></p>
+          <li>Atributo: Data</li>
+          <li>Elemento: Fogo</li>
+          <li>Digimons com atributo virus e elemento água tem dupla vantagem.</li>
+        </ul>
+        <p><strong>Recompensas:</strong></p>
+        <div class="images">
+        <img src="Kaiser Laboratory Easy.png" data-i18n-attr="alt:alt.kaiserlab_easy" style="width:75%;">
+        </div>
+        <p><h3>Modo Normal<h3></p>
+        <ul>
+          <p><strong>Informações dos Bosses:</strong></p>
+          <p><strong>Banchouleomon</strong></p>
+          <li>Atributo: Data</li><li>Elemento: Fogo</li>
+          <li>Digimons com atributo virus e elemento água tem dupla vantagem.</li>
+        </ul>
+        <ul>
+          <p><strong>Chimairamon</strong></p>
+          <li>Atributo: Data</li><li>Elemento: Fogo</li>
+          <li>Digimons com atributo virus e elemento água tem dupla vantagem.</li>
+        </ul>
+        <p><strong>Recompensas:</strong></p>
+        <div class="images">
+        <img src="Kaiser Laboratory Normal.png" data-i18n-attr="alt:alt.kaiserlab_normal" style="width:75%;">
+        </div>
+      `,
+
+      "block.devimon": `
+        <p><strong>Pré-requisitos:</strong></p>
+        <p>Para acessar a Crack of Devimon (Normal), é necessário ter concluído a quest <strong>“Location of Crack on New Dimesion?”</strong> e possuir um Digimon acima do nível 99.</p>
+        <p>A entrada é feita utilizando <strong>1x Devimon’s Crack Pass [Normal-4P]</strong>.</p>
+
+        <h3>Entrada</h3>
+        <p>A dungeon fica no topo da Infinity Mountain.</p>
+        <p>No modo normal, é possível obter até 10 passes por dia por meio de uma quest diária com o NPC &lt;Guild Marker&gt; Diretor Hashima no Dats Center.</p>
+        <p class="notice"><strong>Limite de tempo:</strong> a dungeon possui limite máximo de 20 minutos.</p>
+
+        <h3>Mecânicas</h3>
+        <p>A dungeon é dividida em 3 salas:</p>
+        <ul>
+          <li><strong>1ª sala:</strong> variações de Ogremon, finalizando com Ogremon (Crack of Devimon).</li>
+          <li><strong>2ª sala:</strong> variações de Leomon, finalizando com Leomon (Crack of Devimon).</li>
+          <li><strong>3ª sala:</strong> variações de Devimon, finalizando com Devimon (Crack of Devimon).</li>
+        </ul>
+        <p>Não há mecânicas adicionais detalhadas além dessa progressão por salas.</p>
+
+        <h3>Boss</h3>
+        <p>Os bosses principais do modo normal são:</p>
+        <ul>
+          <li><strong>Ogremon (Crack of Devimon)</strong> — 1.420.420 HP</li>
+          <li><strong>Leomon (Crack of Devimon)</strong> — 1.900.420 HP</li>
+          <li><strong>Devimon (Crack of Devimon)</strong> — 2.090.460 HP</li>
+        </ul>
+        <p><strong>Recompensas da Dungeon — Modo Normal</strong></p>
+        <div class="images"><img src="Crack_Of_Devimon_Normal.png" data-i18n-attr="alt:alt.devimon_normal" style="width:75%;"></div>
+        <p><strong>Recompensas da Dungeon — Modo Hard</strong></p>
+        <div class="images"><img src="Crack_Of_Devimon_Hard.png" data-i18n-attr="alt:alt.devimon_hard" style="width:75%;"></div>
+      `,
+
+      "block.myotismon": `
+        <p><strong>Pré-requisitos:Requisitos</strong></p>
+        <p>Para acessar a Fuji TV Rooftop (Dungeon), é necessário estar com o Tamer acima do nível 90. A dungeon também fica disponível durante a progressão intermediária das quests da história em Odaiba. Para entrar, é preciso usar 1x Fuji TV Staff ID Card.</p>
+        <ul><li>Pegue o passe no DATS com o NPC &lt;Guild Marker&gt; Diretor Hashima</li></ul>
+        <p><strong>Como acessar:</strong></p>
+        <ul><li>Fale com "Matt Pappa" e vá para a cobertura da Fuji TV; depois fale com "Angewomon"</li><li>Derrote o boss Myotismon</li></ul>
+        <div class="images"><img src="Matt_Papa.png" alt="Matt Papa" style="width:35%;"></div>
+        <ul><strong>Localização</strong></ul>
+        <div class="images"><img src="Myo_loc.png" alt="Local Myotismon" style="width:65%;"></div>
+        <h3>Mecânicas:</h3>
+        <p>A dungeon é composta por um único boss principal: Myotismon. Diferente de várias outras dungeons não existe limite de tempo para derrotá-lo. O boss está no nível 120 e muda o padrão de habilidades conforme a porcentagem de vida restante. Além disso, ele recebe o buff “Ambition of Dark Lord”, que reduz em 7% o dano recebido de atributos Vaccine, Virus e Unknown.</p>
+        <p>Durante a luta, o Myotismon usa 5 habilidades principais: Crimson Lightning (Whip), Charging Debuff, Floating Debuff, Nightmare Wave e High-Speed Dash. A skill Crimson Lightning aplica Fatal Venom Lv3 e seu dano aumenta conforme o HP do boss diminui. A Charging Debuff aplica Nightmare Lv.3 ou Lv.4, enquanto a Floating Debuff aplica Petrify Lv.4 e Silence. Já a Nightmare Wave é um raio vermelho de alto dano, e a High-Speed Dash aplica Nightmare Lv.4, Silence e tem o dano dividido entre os jogadores que estiverem participando da luta.</p>
+        <p>A rotação da luta muda por fases. De 100% a 74%, ele usa Crimson Lightning, Floating Debuff e Charging Debuff. Em 73%, ele reinicia o padrão e passa a usar Nightmare Wave e High-Speed Dash. De 73% a 61%, fica focado em Nightmare Wave e Charging Debuff. Em 60%, o padrão muda de novo, e de 60% a 26% ele usa Crimson Lightning com Nightmare Wave. Em 25%, há nova troca de fase, e de 24% até morrer, ele mistura praticamente todas as skills. A wiki também destaca que o Myotismon não para de usar skills até ser derrotado.</p>
+        <br>
+        <p class="notice"><strong>Nota:</strong> Lembre-se dessas regras enquanto estiver batalhando dentro da dungeon.</p>
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Quando essa mecânica aparecer, todos os membros da party devem se juntar dentro da área da skill para dividir o dano entre si. Quanto mais jogadores estiverem dentro do círculo, menor será o dano recebido por cada um.</p>
+        <p><b>Exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 40.000 de dano</li>
+        <li>2 jogadores no círculo: 20.000 de dano para cada um</li>
+        <li>4 jogadores no círculo: 10.000 de dano para cada um</li>
+        </ul>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Verde.png" alt="Circulo_Verde" style="width:60%;">
+        </div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Quando essa mecânica aparecer, você deve se afastar dos demais membros da party para receber o menor dano possível. Se dois ou mais jogadores ficarem próximos entre si dentro da área da skill, o dano será multiplicado conforme a quantidade de pessoas agrupadas.</p>
+        <p><b>exemplo:</b></p>
+        <ul>
+        <li>1 jogador sozinho: 10.000 de dano</li>
+        <li>2 jogadores juntos: 20.000 de dano</li>
+        <li>3 jogadores juntos: 30.000 de dano</li>
+        <li>4 jogadores juntos: 40.000 de dano</li>
+        </ul> 
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Preto.png" alt="Circulo_Preto" style="width:60%;">
+        </div>    
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Esse círculo vermelho funciona de forma diferente das outras mecânicas. Na maioria das vezes, ele pode ser esquivado, então o ideal é sair da área para evitar o dano e, principalmente, o debuff aplicado pela skill.</p>
+        <p>Caso você seja atingido de surpresa, além do dano, ainda poderá receber um efeito negativo que pode atrapalhar bastante durante a luta.
+
+        <p>Em algumas dungeons, essa mecânica pode acontecer várias vezes seguidas como parte de uma sequência</p>
+        <p><b>Exemplo:</b></p> 
+        <p>Na dungeon do VenomMyotismon, aos 70% de vida, esse círculo pode ser lançado 5 vezes consecutivas. Após essa sequência, normalmente vem a mecânica de stackar e depois a de dispersar.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_Vermelho.png" alt="Circulo_Vermelho" style="width:60%;">
+        </div> 
+
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Ao aparecer essa mecânica, o ideal é evitar a área imediatamente, pois ser atingido por ela normalmente resulta em morte instantânea (HK).
+
+        Na maioria dos casos, não há redução de dano ou forma de sobreviver tomando essa skill de frente. Por isso, é essencial ficar atento ao posicionamento e reagir rapidamente para não ser eliminado.</p>
+        <div class="images">
+          <img src="guia-transcendência/Circulo_HK.png" alt="Circulo_HK" style="width:60%;">
+        </div>
+
+        <p><strong>Informações do Boss:</strong></p>
+        <p>O boss da dungeon é o Myotismon, do tipo Virus, com atributo elemental Darkness, estilo de ataque melee, nível 120. Ele fica localizado na Fuji TV Rooftop (Dungeon).</p>
+        <p><strong>Recompensas — Modo Easy</strong></p>
+         <div class="images">
+          <img src="guia-transcendência/Myotismon_DG_easy.png" alt="Myo_Easy" style="width:75%;">
+        </div> 
+        <p><strong>Recompensas — Modo Normal</strong></p>
+        <div class="images">
+          <img src="guia-transcendência/Myotismon_DG_normal.png" alt="Myo_Normal" style="width:75%;">
+        </div> 
+      `,
+
+      "block.venom": `
+        <p><strong>Pré-requisitos:</strong></p>
+        <ul>
+          <li>Tamer Lv 90+</li>
+          <li>Completar as quests roxas de Odaiba até West Promenade</li>
+          <li>Após completar a missão de acesso, ela vira diária e concede entrada</li>
+          <li><strong>(Confira o Digivice; algumas quests chegam por ele)</strong></li>
+          <li>Pegue o passe diário com o NPC &lt;Guild Marker&gt; Diretor Hashima</li>
+        </ul>
+        <p><strong>Como acessar:</strong></p>
+        <ul><li>Fale com o NPC "Taichi"</li></ul>
+        <div class="images"><img src="Map_Odaiba.png" data-i18n-attr="alt:alt.map_odaiba" style="width:40%;"></div>
+        <ul><li>Derrote o boss VenomMyotismon</li></ul>
+        <p><strong>Informações do Boss:</strong></p>
+        <ul><li>Atributo: Vírus</li><li>Elemental: Fogo</li><li>Tipo: Agressivo</li><li>Vacina tem vantagem</li></ul>
+        <p><strong>Recompensas — Modo Easy</strong></p>
+        <div class="images"><img src="Venom_DG_EASY.png" data-i18n-attr="alt:alt.venom_easy" style="width:75%;"></div>
+        <p><strong>Recompensas — Modo Normal</strong></p>
+        <div class="images"><img src="Venom_DG_Normal.png" data-i18n-attr="alt:alt.venom_normal" style="width:75%;"></div>
+      `,
+
+      "block.skull": `
+        <h3>Requisitos</h3>
+        <p>Para acessar a Tokyo Tower Observatory (Dungeon), é necessário estar com o Tamer no nível 85+, ter concluído as quests principais de Tokyo Tower Observatory e possuir <strong>1x Tokyo Tower Observatory Admission</strong>.</p>
+
+        <h3>Entrada</h3>
+        <p>O acesso à dungeon é feito por meio do NPC SkullMeramon.</p>
+        <p>Após concluir a linha principal da área, a quest correspondente passa a funcionar em formato diário, permitindo obter <strong>2x Tokyo Tower Observatory Admission</strong> com o NPC &lt;Guild Marker&gt; Diretor Hashima no Dats Center.</p>
+
+        <h3>Mecânicas</h3>
+        <p>A dungeon possui um único boss principal: SkullMeramon. Não há limite de tempo para concluir o confronto.</p>
+        <p>A luta é dividida em fases conforme a quantidade de HP restante do boss. O SkullMeramon troca o padrão de habilidades 3 vezes ao longo do combate e utiliza 5 skills principais:</p>
+        <ul>
+          <li>Chain Attack</li>
+          <li>Fire Breath</li>
+          <li>Blue AOE Circle</li>
+          <li>Big Target Circle</li>
+          <li>Summon Minions</li>
+        </ul>
+
+        <h3>Habilidades</h3>
+        <p><strong>Chain Attack</strong></p>
+        <p>Atinge o jogador que causa mais dano no boss. Causa 5.000 de dano base entre 100% e 31% do HP e 6.000 de dano base entre 30% e 1% do HP.</p>
+        <p><strong>Tempo de recarga:</strong> 10 segundos.</p>
+
+        <p><strong>Fire Breath</strong></p>
+        <p>Causa 8.000 de dano base entre 100% e 21% do HP e 8.500 de dano base entre 20% e 1% do HP.</p>
+        <p>Aplica debuffs conforme a fase:</p>
+        <ul>
+          <li><strong>100% ~ 51%:</strong> Metallic Poison Lv.1</li>
+          <li><strong>50% ~ 21%:</strong> Metallic Poison Lv.2</li>
+          <li><strong>20% ~ 1%:</strong> Metallic Poison Lv.3</li>
+        </ul>
+        <p><strong>Tempo de recarga:</strong> 20 segundos.</p>
+
+        <p><strong>Blue AOE Circle</strong></p>
+        <p>Causa dano em área e aplica debuffs:</p>
+        <ul>
+          <li><strong>100% ~ 61%:</strong> 12.000 de dano</li>
+          <li><strong>60% ~ 21%:</strong> 13.000 de dano</li>
+          <li><strong>20% ~ 1%:</strong> 15.000 de dano</li>
+        </ul>
+        <p>Também aplica 4th-Degree Burn em todos os atingidos e, abaixo de 60% do HP, passa a aplicar Degeneration. O cooldown é reiniciado quando o boss atinge 60% e 20% de HP.</p>
+        <p><strong>Tempo de recarga:</strong> 30 segundos.</p>
+
+        <p><strong>Big Target Circle</strong></p>
+        <p>Passa a ser usada quando o boss fica abaixo de 20% do HP. Causa 25.000 de dano base e mira os jogadores que estiverem causando dano no boss. O dano pode ser reduzido ao dividir o impacto entre mais jogadores.</p>
+        <p><strong>Tempo de recarga:</strong> 30 segundos.</p>
+
+        <p><strong>Summon Minions</strong></p>
+        <p>Começa a ser usada após 3 minutos de luta. Cada invocação gera 4x Meramon (Gigantic) por onda.</p>
+        <p>Cada minion possui 400.000 HP, causa 2.282 de skill damage ao jogador que o ataca e permanece por 150 segundos.</p>
+        <p><strong>Tempo de recarga:</strong> 50 segundos.</p>
+
+        <h3>Observações da luta</h3>
+        <ul>
+          <li>As skills do SkullMeramon e dos Meramon (Gigantic) são do atributo Fire.</li>
+          <li>Se o jogador estiver com 4th-Degree Burn e Metallic Poison Lv.2 ao mesmo tempo, o dano do Fire Breath aumenta em 300%, chegando a 32.000 de dano.</li>
+          <li>O boss não para de usar skills até ser derrotado.</li>
+        </ul>
+
+        <h3>Guia dos Círculos</h3>
+        <p class="notice"><strong>Nota:</strong> Use estas regras como referência para identificar mecânicas visuais de círculos durante as dungeons.</p>
+
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Todos os membros da party devem se juntar dentro da área para dividir o dano. Quanto mais jogadores estiverem no círculo, menor será o dano recebido por cada um.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Verde.png" alt="Círculo verde para stackar" style="width:60%;"></div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Os membros da party devem se afastar uns dos outros. Jogadores próximos podem multiplicar o dano recebido.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Preto.png" alt="Círculo preto para dispersar" style="width:60%;"></div>
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Saia da área para evitar o dano e possíveis debuffs aplicados pela skill.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Vermelho.png" alt="Círculo vermelho de esquiva ou debuff" style="width:60%;"></div>
+
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Evite a área imediatamente, pois ser atingido normalmente resulta em morte instantânea.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_HK.png" alt="Círculo amarelo de morte instantânea" style="width:60%;"></div>
+
+        <h3>Boss</h3>
+        <p>O boss da dungeon é o <strong>SkullMeramon (Raid)</strong>.</p>
+        <ul>
+          <li><strong>Forma:</strong> Ultimate</li>
+          <li><strong>Atributo:</strong> Data</li>
+          <li><strong>Elemento:</strong> Fire</li>
+          <li><strong>Tipo de ataque:</strong> Short Attacker</li>
+          <li><strong>Família:</strong> Nightmare Soldiers</li>
+          <li><strong>HP:</strong> 41.000.000</li>
+          <li><strong>Nível:</strong> 111</li>
+        </ul>
+
+        <h3>Variação: Tokyo Tower Observatory (Easy)</h3>
+        <p><strong>Requisitos:</strong> para acessar a versão Easy, é necessário possuir <strong>1x Tokyo Tower Observatory Admission [Easy]</strong>.</p>
+        <p><strong>Entrada:</strong> a estrutura da dungeon continua ligada à área de Tokyo Tower Observatory, com acesso pela mesma região e progressão simplificada da versão principal.</p>
+        <p><strong>Mecânicas:</strong> a versão Easy mantém o confronto contra o SkullMeramon, com a mesma base de combate, porém com HP reduzido. A dificuldade Easy não detalha uma rotação separada de mecânicas.</p>
+        <p><strong>Boss:</strong> SkullMeramon — 16.408.000 HP | Nível 111.</p>
+
+        <p><strong>Recompensas — Modo Easy</strong></p>
+        <div class="images"><img src="Skull_DG_Easy.png" alt="Recompensas SkullMeramon modo Easy" style="width:75%;"></div>
+        <p><strong>Recompensas — Modo Normal</strong></p>
+        <div class="images"><img src="Skull_DG_Normal.png" alt="Recompensas SkullMeramon modo Normal" style="width:75%;"></div>
+      `,
+
+      "block.nano": `
+        <p><strong>Pré-requisitos: Aqui você precisa ter feito todas as quests principais do Deserto, Canyon, Pirâmide e ter level 75+ de tamer, pra poder ter acesso.</strong></p>
+        <ul><li>Passe diário com o NPC "Guide - Izzy"</li></ul>
+        <p><strong>Como acessar:</strong></p>
+        <ul><li>Fale com "Izzy"</li></ul>
+        <div class="images"><img src="guide izzy.png" data-i18n-attr="alt:alt.guide izzy" style="width:40%;"></div>
+        <ul><li>Siga por este caminho para chegar até a sala do boss</li></ul>
+        <div class="images"><img src="mapa nanomon.png" data-i18n-attr="alt:alt.mapa nanomon" style="width:40%;"></div>
+        <ul><li>No modo easy será preciso derrotar somente o boss Nanomon</li></ul>
+        <ul><li>No modo normal será preciso derrotar os bosses Nanomon e Etemon</li></ul>
+        <p><strong>Informações do Boss:</strong></p>
+        <p><strong>Nanomon</strong></p>
+        <ul><li>Atributo: Vírus</li><li>Elemental: Aço</li><li>Tipo: Agressivo</li><li>Vacina tem vantagem</li></ul>
+        <p><strong>Etemon</strong></p>
+        <ul><li>Atributo: Vírus</li><li>Elemental: Escuridão</li><li>Tipo: Agressivo</li><li>Vacina tem vantagem</li></ul>
+        <p><strong>Recompensas — Modo Easy</strong></p>
+        <div class="images"><img src="Nano_DG_Easy.png" data-i18n-attr="alt:alt.nano_DG_Easy" style="width:75%;"></div>
+        <p><strong>Recompensas — Modo Normal</strong></p>
+        <div class="images"><img src="Nano_DG.png" data-i18n-attr="alt:alt.nano_normal" style="width:75%;"></div>
+      `,
+
+      "block.water": `
+        <p><strong>Pré-requisitos:</strong></p>
+        <p>Aqui você precisará ter level 70+ de tamer, pra poder ter acesso a dungeon.</p>
+        <ul><li>Passe diário com o NPC &lt;Guild Marker&gt; Diretor Hashima no Dats Center</li></ul>
+        <ul><li>Também é possível craftar mais passes da dungeon no NPC Renamon em D-Terminal</li></ul>
+        <div class="images"><img src="Renamon_Exchange.png" data-i18n-attr="alt:alt.Renamon_Exchange" style="width:40%;"></div>
+        <ul>
+          <li>50x Scar Essence = 1 Pass [Scar of Water Crystal Easy]</li>
+          <li>100x Scar Essence = 1 Pass [Scar of Water Crystal Normal]</li>
+          <li>110x Scar Essence = 1 Pass [Scar of Water Crystal Hard]</li>
+          <li><b>Scar Essence pode ser dropada nos mapas de Snow Village</b></li>
+        </ul>
+        <p><strong>Como acessar:</strong></p>
+        <ul><li>Para acessar a dungeon nos modos easy e normal fala com o NPC "Terriermon Guide", já para acessar a dungeon no modo Hard fale com o NPC "Four Holy Beasts Dungeon" Lopmon</li></ul>
+        <div class="images"><img src="Lopmon_Guides.png" data-i18n-attr="alt:alt.Lopmon_Guides" style="width:50%;"></div>
+        <p><strong>Informações do Boss:</strong></p>
+        <p><strong>Mega Seadramon</strong></p>
+        <ul><li>Atributo: Data</li><li>Elemental: Agua</li><li>Tipo: Agressivo</li><li>Virus tem vantagem</li></ul>
+        <p><strong>MarineDevimon</strong></p>
+        <ul><li>Atributo: Vírus</li><li>Elemental: Agua</li><li>Tipo: Agressivo</li><li>Vacina tem vantagem</li></ul>
+        <p><strong>Xuanwumon</strong></p>
+        <ul><li>Atributo: Vacina</li><li>Elemental: Agua</li><li>Tipo: Agressivo</li><li>Data tem vantagem</li></ul>
+        <p><strong>Recompensas — Modo Easy</strong></p>
+        <div class="images"><img src="DG_Xuan_Easy.png" data-i18n-attr="alt:alt.DG_Xuan_Easy" style="width:75%;"></div>
+        <p><strong>Recompensas — Modo Normal</strong></p>
+        <div class="images"><img src="DG_Xuan_NORMAL.png" data-i18n-attr="alt:alt.DG_Xuan_NORMAL" style="width:75%;"></div>
+        <p><strong>Recompensas — Modo Hard</strong></p>
+        <div class="images"><img src="DG_Xuan_Hard.png" data-i18n-attr="alt:alt.DG_Xuan_Hard" style="width:75%;"></div>
+      `,
+
+      "block.thunder": `
+        <p>A área onde Qinglongmon, um dos Quatro Deuses Sagrados, existe.</p>
+        <h3>Entrada Easy:</h3>
+        <p>É necessário o Pass [Easy Descending Thunder God] para entrar na dungeon, e ele está disponível para tamers a partir do nível 70+.</p>
+        <p>2 tickets podem ser obtidos gratuitamente por meio de uma missão diária dada pelo NPC &lt;Guild Marker&gt; Diretor Hashima.</p>
+        <p>1 ticket pode ser obtido trocando 50x Energy of Thunder God com Renamon.</p>
+        <p>Energy of Thunder God pode ser obtido como drop de qualquer Digimon em Digimon Maze (exceto na Digimon Maze Entrance).</p>
+        <h3>Entrada Normal:</h3>
+        <p>É necessário o Pass [Normal Descending Thunder God] para entrar na dungeon, disponível para tamers a partir do nível 70+.</p>
+        <p>2 tickets podem ser obtidos gratuitamente por missão diária com o NPC &lt;Guild Marker&gt; Diretor Hashima.</p>
+        <p>1 ticket pode ser obtido trocando 100x Energy of Thunder God com Renamon.</p>
+        <h3>Entrada Hard:</h3>
+        <p>É necessário o Pass [Hard Descending Thunder God], disponível para tamers a partir do nível 80+.</p>
+        <p>1 ticket pode ser obtido trocando 100x Energy of Thunder God com Renamon.</p>
+        <p><strong>Como acessar:</strong></p>
+        <ul>
+          <li>Fale com <b>Lopmon — Guides</b> em D-Terminal e selecione <em>Descending Thunder God</em></li>
+        </ul>
+        <div class="images"><img src="Lopmon_Guides.png" alt="Lopmon Guides" style="width:65%;"></div>
+        <p><strong>Bosses e dicas:</strong></p>
+        <ul>
+          <li><b>Antylamon</b> — Atributo: Data | Elemento: Luz | Atributo Vírus e Elemento Escuridão tem dupla Vantagem</li>
+          <li><b>Mihiramon</b> — Atributo: Data | Elemento: Luz | Atributo Vírus e Elemento Escuridão tem dupla Vantagem</li>
+          <li><b>Majiramon</b> — Atributo: Data | Elemento: Luz | Atributo Vírus e Elemento Escuridão tem dupla Vantagem</li>
+          <li><b>Qinglongmon</b> — Atributo: Data | Elemento: Trovão | Atributo Vírus e Elemento Metal tem dupla Vantagem</li>
+        </ul>
+        <h3>Modo easy:</h3>
+        <div class="images"><img src="DG_Quing_Easy.png" alt="Drops Descending Thunder God Easy" style="width:75%;"></div>
+        <h3>Modo Normal:</h3>
+        <div class="images"><img src="DG_Quing_Normal.png" alt="Drops Descending Thunder God Normal" style="width:75%;"></div>
+        <h3>Modo Hard:</h3>
+        <div class="images"><img src="DG_Quing_Hard_copiar.png" alt="Drops Descending Thunder God Hard" style="width:75%;"></div>
+      `,
+
+      "block.steel": `
+        <p>A área onde Baihumon, um dos Quatro Deuses Sagrados, existe.</p>
+        <h3>Entrada:</h3>
+        <p>É necessário possuir o <strong>Pass [Trace of Black Steel]</strong> para entrar na dungeon. O passe está disponível para tamers a partir do nível 70+.</p>
+        <p>2 tickets <strong>Pass [Trace of Black Steel]</strong> podem ser obtidos gratuitamente por meio de uma missão diária dada pelo NPC &lt;Guild Marker&gt; Diretor Hashima em Dats Center. A missão é renovada diariamente à meia-noite.</p>
+        <p>1 ticket <strong>Pass [Trace of Black Steel]</strong> pode ser obtido trocando <strong>100x Energy of Steel</strong> com Renamon.</p>
+        <p>As Energy of Steel podem ser obtidas como drop de qualquer Digimon em Server Continent Desert e Server Continent Canyon.</p>
+        <p><strong>Como acessar:</strong></p>
+        <ul>
+          <li>Fale com <b>Terriermon — Dungeon Guide</b> para acessar o modo Hard e com o <b>Guilmon - Dungeon Guide</b> para acessar o modo Normal e Easy em D-Terminal e selecione <em>Trace of Black Steel</em>.</li>
+        </ul>
+        <div class="images"><img src="Lopmon_Guides.png" alt="Lopmon Guides" style="width:65%;"></div>
+        <p><strong>Bosses e dicas:</strong></p>
+        <ul>
+          <li><b>Sinduramon</b> — Elemento: Aço | Evite permanecer nas áreas de dano das habilidades.</li>
+          <li><b>Blossomon</b> — Elemento: Aço | Mantenha a equipe agrupada apenas quando a mecânica exigir divisão de dano.</li>
+          <li><b>Baihumon</b> — Atributo: Data | Elemento: Aço | Atributo Vírus e Elemento Fogo possuem vantagem.</li>
+        </ul>
+
+        <h3>Guia dos Círculos</h3>
+        <p class="notice"><strong>Nota:</strong> Observe a cor dos círculos durante os confrontos e execute a mecânica correspondente.</p>
+
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Todos os membros da party devem se juntar dentro da área para dividir o dano. Quanto mais jogadores estiverem no círculo, menor será o dano recebido por cada um.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Verde.png" alt="Círculo verde para stackar" style="width:60%;"></div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Os membros da party devem se afastar uns dos outros. Jogadores próximos podem multiplicar o dano recebido.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Preto.png" alt="Círculo preto para dispersar" style="width:60%;"></div>
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Saia da área para evitar o dano e possíveis debuffs aplicados pela habilidade.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Vermelho.png" alt="Círculo vermelho de esquiva ou debuff" style="width:60%;"></div>
+
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Evite a área imediatamente, pois ser atingido normalmente resulta em morte instantânea.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_HK.png" alt="Círculo amarelo de morte instantânea" style="width:60%;"></div>
+
+        <h3>Modo Easy:</h3>
+        <div class="images"><img src="DG_Baihu_Easy.png" alt="Drops Trace of Black Steel Easy" style="width:75%;"></div>
+        <h3>Modo Normal:</h3>
+        <div class="images"><img src="DG_Baihu_Normal.png" alt="Drops Trace of Black Steel Normal" style="width:75%;"></div>
+        <h3>Modo Hard:</h3>
+        <div class="images"><img src="DG_Baihu_Hard_copiar.png" alt="Drops Trace of Black Steel Hard" style="width:75%;"></div>
+      `,
+
+      "block.fang": `
+        <p>A área onde Fanglongmon e os Quatro Deuses Sagrados existem.</p>
+
+        <h3>Entrada</h3>
+        <p>A dungeon <strong>Boundaries of Yin and Yang / Fanglongmon Dungeon</strong> está disponível para tamers a partir do nível 90+.</p>
+        <p>É necessário possuir o <strong>Pass [Fanglongmon Dungeon]</strong> para entrar na dungeon.</p>
+        <ul>
+          <li>Fale com o NPC <b>&lt;Guild Marker&gt; Diretor Hashima</b> em D-Terminal para receber a missão diária que concede <strong>2x Pass [Fanglongmon Dungeon]</strong>.</li>
+          <li>Fale com o NPC <b>Renamon</b> em D-Terminal e troque <strong>100x Yin and Yang Spirit</strong> por <strong>1x Pass [Fanglongmon Dungeon]</strong>.</li>
+          <li>Yin and Yang Spirit pode ser obtido como drop de qualquer Digimon em Versandi Terminal.</li>
+          <li>Fale com o NPC <b>Guilmon</b> em D-Terminal para entrar na dungeon.</li>
+        </ul>
+        <p>A Boundaries of Yin and Yang é dividida em duas salas.</p>
+
+        <h3>Primeira sala — Quatro Deuses Sagrados</h3>
+        <p>Ao entrar na dungeon, a primeira sala é separada em quatro zonas diferentes, com estrutura semelhante à dungeon Descending Thunder God.</p>
+        <p>Existem quatro raids nesta sala: <strong>Xuanwumon, Zhuqiaomon, Baihumon e Qinglongmon</strong>.</p>
+        <p>Os raids funcionam da mesma forma que suas versões nas dungeons correspondentes, porém possuem mais HP e causam mais dano.</p>
+        <ol>
+          <li>O primeiro raid enfrentado será <strong>Xuanwumon</strong>.</li>
+          <li>Após derrotar Xuanwumon, será possível escolher entre as zonas de <strong>Zhuqiaomon</strong> e <strong>Baihumon</strong>.</li>
+          <li>Fale com o NPC <strong>Guilmon</strong> para entrar na zona de Zhuqiaomon.</li>
+          <li>Fale com o NPC <strong>Renamon</strong> para entrar na zona de Baihumon.</li>
+          <li>Os dois raids devem ser derrotados para liberar o portal da zona final.</li>
+          <li>O boss final da primeira sala será <strong>Qinglongmon</strong>.</li>
+          <li>Derrote Qinglongmon e avance para a segunda sala.</li>
+        </ol>
+
+        <h3>Segunda sala — Subsolo da Fanglongmon Dungeon</h3>
+        <ul>
+          <li>Após entrar na segunda sala, o jogador não poderá retornar à sala anterior.</li>
+          <li>O jogador não será teleportado para fora do mapa caso morra nesta sala.</li>
+          <li>Um membro da party que desconectar não poderá entrar diretamente na segunda sala. Os raids da primeira sala reaparecerão e precisarão ser derrotados novamente para liberar a entrada.</li>
+          <li>É necessário possuir <strong>90k++ de HP</strong> para conseguir resistir à skill do Fanglongmon.</li>
+          <li><strong>Fanglongmon possui um limite de 10 minutos para ser derrotado.</strong></li>
+          <li>Quando o tempo limite for atingido, todos os membros da party serão derrotados pela habilidade de morte instantânea, independentemente do HP dos Digimons.</li>
+        </ul>
+
+        <h3>Guia dos Círculos</h3>
+        <p class="notice"><strong>Nota:</strong> Observe a cor dos círculos durante os confrontos e execute a mecânica correspondente.</p>
+
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Todos os membros da party devem se juntar dentro da área para dividir o dano. Quanto mais jogadores estiverem no círculo, menor será o dano recebido por cada um.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Verde.png" alt="Círculo verde para stackar" style="width:60%;"></div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Os membros da party devem se afastar uns dos outros. Jogadores próximos podem multiplicar o dano recebido.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Preto.png" alt="Círculo preto para dispersar" style="width:60%;"></div>
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Saia da área para evitar o dano e possíveis debuffs aplicados pela habilidade.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Vermelho.png" alt="Círculo vermelho de esquiva ou debuff" style="width:60%;"></div>
+
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Evite a área imediatamente, pois ser atingido normalmente resulta em morte instantânea.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_HK.png" alt="Círculo amarelo de morte instantânea" style="width:60%;"></div>
+
+        <h3>Modo Easy:</h3>
+        <div class="images"><img src="DG_FANG_Easy.png" alt="Drops Fanglongmon Dungeon Easy" style="width:75%;"></div>
+        <h3>Modo Normal:</h3>
+        <div class="images"><img src="DG_FANG_Normal_.png" alt="Drops Fanglongmon Dungeon Normal" style="width:75%;"></div>
+      `,
+
+      "block.flame": `
+        <p>A área onde Zhuqiaomon, um dos Quatro Deuses Sagrados, existe.</p>
+        <h3>Entrada:</h3>
+        <p>É necessário possuir o <strong>Pass [Uprising Flame]</strong> para entrar na dungeon. O passe está disponível para tamers a partir do nível 70+.</p>
+        <p>2 tickets <strong>Pass [Uprising Flame]</strong> podem ser obtidos gratuitamente por meio de uma missão diária dada pelo NPC Guilmon em D-Terminal. A missão é renovada diariamente à meia-noite.</p>
+        <p>1 ticket <strong>Pass [Uprising Flame]</strong> pode ser obtido trocando <strong>100x Piece [Uprising Flame]</strong> com Renamon.</p>
+        <p>As Piece [Uprising Flame] podem ser obtidas como drop de qualquer Digimon em File Island.</p>
+        <p><strong>Como acessar:</strong></p>
+        <ul>
+          <li>Fale com <b>Terriermon — Dungeon Guide</b> para acessar o modo Hard.</li>
+          <li>Fale com <b>Guilmon — Dungeon Guide</b> para acessar os modos Normal e Easy.</li>
+        </ul>
+        <p><strong>Bosses e dicas:</strong></p>
+        <ul>
+          <li><b>Birdramon</b> — Elemento: Fogo | Evite permanecer nas áreas de dano das habilidades.</li>
+          <li><b>Garudamon</b> — Elemento: Fogo | Observe os círculos e afaste-se quando a mecânica exigir dispersão.</li>
+          <li><b>Phoenixmon</b> — Elemento: Fogo | Elimine rapidamente os inimigos invocados e evite ataques em área.</li>
+          <li>
+            <b>Zhuqiaomon</b> — Atributo: Vírus | Elemento: Fogo | Atributo Vacina e Elemento Água possuem vantagem.
+            Elimine rapidamente os inimigos invocados, pois eles aplicarão os seguintes debuffs:
+            <ul>
+              <li><b>Piyomon:</b> Degeneration Debuff.</li>
+              <li><b>Hawkmon:</b> Return Debuff.</li>
+              <li><b>Patamon:</b> Silence Debuff.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>Guia dos Círculos</h3>
+        <p class="notice"><strong>Nota:</strong> Observe a cor dos círculos durante os confrontos e execute a mecânica correspondente.</p>
+
+        <p><strong>Círculo Verde = Stackar</strong></p>
+        <p>Todos os membros da party devem se juntar dentro da área para dividir o dano. Quanto mais jogadores estiverem no círculo, menor será o dano recebido por cada um.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Verde.png" alt="Círculo verde para stackar" style="width:60%;"></div>
+
+        <p><strong>Círculo Preto = Dispersar</strong></p>
+        <p>Os membros da party devem se afastar uns dos outros. Jogadores próximos podem multiplicar o dano recebido.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Preto.png" alt="Círculo preto para dispersar" style="width:60%;"></div>
+
+        <p><strong>Círculo Vermelho = Skill de Esquiva / Debuff</strong></p>
+        <p>Saia da área para evitar o dano e possíveis debuffs aplicados pela habilidade.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_Vermelho.png" alt="Círculo vermelho de esquiva ou debuff" style="width:60%;"></div>
+
+        <p><strong>Círculo Amarelo = Morte instantânea (HK)</strong></p>
+        <p>Evite a área imediatamente, pois ser atingido normalmente resulta em morte instantânea.</p>
+        <div class="images"><img src="guia-transcendência/Circulo_HK.png" alt="Círculo amarelo de morte instantânea" style="width:60%;"></div>
+
+        <h3>Modo Easy:</h3>
+        <div class="images"><img src="DG_Zhuquia_Easy.png" alt="Drops Uprising Flame Easy" style="width:75%;"></div>
+        <h3>Modo Normal:</h3>
+        <div class="images"><img src="DG_Zhuquia_Normal.png" alt="Drops Uprising Flame Normal" style="width:75%;"></div>
+        <h3>Modo Hard:</h3>
+        <div class="images"><img src="DG_Zhuquia_Hard_copiar.png" alt="Drops Uprising Flame Hard" style="width:75%;"></div>
+      `,
+
+      "block.destr": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.chim": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.dark": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.mkt": `
+        <div class="event-hero">
+          <h3>Conteúdo em breve</h3>
+          <p class="notice"><strong>Yggdrasil ainda não permitiu que pudéssemos avançar e ler sobre esse local.</strong></p>
+        </div>
+      `,
+
+      "block.eventos.namorados2026": `
+        <div class="event-hero">
+          <h3>💖 EVENTO DE DIA DOS NAMORADOS 2026 💖</h3>
+          <p class="event-date">14/06/2026 a 14/07/2026</p>
+          <p>Olá, Tamers!</p>
+          <p>O amor chegou ao Digital Galaxy Online! Durante o período do evento, participe da nova dungeon temática <strong>Love Dungeon</strong>, acumule <strong>Valentine Day Coins</strong> e troque suas moedas por diversas recompensas exclusivas no NPC do evento.</p>
+        </div>
+
+        <hr class="event-divider">
+        <h3>🏰 Love Dungeon</h3>
+        <p>Uma nova dungeon especial foi adicionada ao jogo durante o evento: <strong>💕 Love Dungeon</strong>.</p>
+        <ul class="event-item-list">
+          <li><strong>💰 Recompensa por conclusão</strong><br>516 Valentine Day Coins</li>
+          <li><strong>🔄 Limite diário</strong><br>2 conclusões por dia</li>
+          <li><strong>💎 Total diário possível</strong><br>1.032 Valentine Day Coins por dia</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>🛠️ Crafts disponíveis no NPC do evento</h3>
+        <p>As Valentine Day Coins obtidas na Love Dungeon poderão ser utilizadas para fabricar os seguintes itens:</p>
+        <ul class="event-item-list">
+          <li><strong>🍓 Strawberries Flakes x25</strong><br>Custo: 5 Valentine Day Coin<br>Limite: 15 crafts por semana</li>
+          <li><strong>🥖 Pão que o Leleco Amassou [Evento] x15</strong><br>Custo: 20 Valentine Day Coin<br>Limite: 50 crafts por semana</li>
+          <li><strong>🍌 Silver Banana x15</strong><br>Custo: 30 Valentine Day Coin<br>Limite: 50 crafts por semana</li>
+          <li><strong>🎒 Inventory Expansion x3</strong><br>Custo: 2 Valentine Day Coin<br>Limite: 5 crafts por semana</li>
+          <li><strong>📦 Warehouse Expansion x3</strong><br>Custo: 2 Valentine Day Coin<br>Limite: 5 crafts por semana</li>
+          <li><strong>📚 Digimon Archive Expansion</strong><br>Custo: 3 Valentine Day Coin<br>Limite: 7 crafts por semana</li>
+          <li><strong>💪 Digimon Enhancement Buff Package x5</strong><br>Custo: 10 Valentine Day Coin<br>Limite: 3 crafts por semana</li>
+          <li><strong>🚀 Jump Booster All Area x10</strong><br>Custo: 1 Valentine Day Coin<br>Limite: 30 crafts por semana</li>
+          <li><strong>🎟️ Season Pass Premium Ticket</strong><br>Custo: 300 Valentine Day Coin<br>Limite: 1 craft durante todo o evento</li>
+          <li><strong>✨ Digital Damage Skin</strong><br>Custo: 200 Valentine Day Coin<br>Limite: 1 craft durante todo o evento</li>
+          <li><strong>🌳 Fruit of Yggdrasil [Evento] x5</strong><br>Custo: 10 Valentine Day Coin<br>Limite: 50 crafts por semana</li>
+          <li><strong>🔷 Mega Option Change Stone DGO</strong><br>Custo: 25 Valentine Day Coin<br>Limite: 7 crafts por semana</li>
+          <li><strong>🎖️ Mercenary Slot Expansion</strong><br>Custo: 10 Valentine Day Coin<br>Limite: 1 craft por semana</li>
+          <li><strong>📢 Regular Megaphone x10</strong><br>Custo: 5 Valentine Day Coin<br>Limite: 10 crafts por semana</li>
+          <li><strong>🎁 Adventure Tamer Box</strong><br>Custo: 20 Valentine Day Coin<br>Limite: 10 crafts por semana</li>
+          <li><strong>⭐ Condensador de Estrelas (SSS)</strong><br>Custo: 100 Valentine Day Coin<br>Limite: 1 craft durante todo o evento</li>
+          <li><strong>🥚 Random Reinforced Mercenary DigiEgg [Evento]</strong><br>Custo: 5 Valentine Day Coin</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>🔖 Seals disponíveis no NPC do evento</h3>
+        <p>Todos os Seals abaixo custam <strong>1 Valentine Day Coin</strong> e possuem limite de <strong>1.000 unidades durante todo o evento</strong>.</p>
+        <ul class="event-item-list">
+          <li>🔹 Siriusmon Seal</li>
+          <li>🔹 MirageGaogamon Seal</li>
+          <li>🔹 Omegamon Zwart Seal</li>
+          <li>🔹 ChaosPiedmon Seal</li>
+          <li>🔹 Magnadramon Seal</li>
+          <li>🔹 Rafflesimon Seal</li>
+          <li>🔹 Lotusmon Seal</li>
+          <li>🔹 Kabuterimon Seal</li>
+          <li>🔹 SunFlowmon Seal</li>
+          <li>🔹 Angewomon Seal</li>
+          <li>🔹 Labramon Seal</li>
+          <li>🔹 Salamon Seal</li>
+          <li>🔹 Ophanimon Seal</li>
+          <li>🔹 Fanglongmon Seal</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>📌 Informações importantes</h3>
+        <ul>
+          <li>O evento terá duração de 31 dias.</li>
+          <li>A Love Dungeon poderá ser realizada 2 vezes por dia.</li>
+          <li>Cada conclusão concede 516 Valentine Day Coins.</li>
+          <li>Será possível obter até 1.032 Valentine Day Coins diariamente.</li>
+          <li>Algumas recompensas possuem limite semanal e outras possuem limite único durante todo o evento.</li>
+          <li>Todas as recompensas listadas acima podem ser obtidas através do NPC exclusivo do evento utilizando Valentine Day Coins.</li>
+        </ul>
+      `,
+
+      "block.eventos.copa2026": `
+        <div class="event-hero">
+          <h3>🏆 WORLD CUP EVENT 2026 🏆</h3>
+          <p>Olá, Tamers!</p>
+          <p>A Copa do Mundo chegou ao Digital Galaxy Online! Participe das atividades especiais do evento, derrote o novo chefe mundial e conquiste recompensas exclusivas.</p>
+        </div>
+
+        <hr class="event-divider">
+        <h3>⚽ Novo World Boss</h3>
+        <ul class="event-item-list">
+          <li><strong>📍 Localização</strong><br>Village of the Beginning</li>
+          <li><strong>👾 Big Mamemon</strong><br>Respawn: 90 minutos<br>Recompensa: 6 World Cup Fragment<br>Chance de obter o título exclusivo: <strong>🏆 DigiWorld Cup 2026</strong></li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>🛠️ Crafts do NPC do evento</h3>
+        <p>Os World Cup Fragments poderão ser trocados pelos seguintes itens:</p>
+        <ul class="event-item-list">
+          <li><strong>👕 Adventure Agumon Costume Set 30D</strong><br>Custo: 100 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>⚽ Novices Yellow Soccer Uniform 30D</strong><br>Custo: 25 World Cup Fragment<br>Limite: 5</li>
+          <li><strong>👕 Adventure Agumon Costume Set 30D</strong><br>Custo: 50 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>🌩️ XAI Ver. Storm Box 30D</strong><br>Custo: 100 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>🔷 Mega Reinforced Digiclone Set</strong><br>Custo: 10 World Cup Fragment<br>Limite: 40</li>
+          <li><strong>🪽 Asas da Redenção [Event]</strong><br>Custo: 70 World Cup Fragment<br>Limite: 5</li>
+          <li><strong>📖 Skill DigiCode (Jogress) Lv15</strong><br>Custo: 70 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>📖 Skill DigiCode (Jogress) Lv20</strong><br>Custo: 90 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>📖 Skill DigiCode (Jogress) Lv25</strong><br>Custo: 150 World Cup Fragment<br>Limite: 1</li>
+          <li><strong>🎁 Zero Unit Random Box</strong><br>Custo: 500 World Cup Fragment<br>Limite: 1</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>🎰 Gacha Free - NPC Babel</h3>
+        <p>O NPC Babel recebeu um novo Gacha Free.</p>
+        <ul class="event-item-list">
+          <li><strong>🎟️ Item necessário</strong><br>Bilhete de Invocador Raro [Event]</li>
+          <li><strong>💕 Como obter</strong><br>Love Dungeon<br>55 Bilhetes por conclusão</li>
+          <li><strong>Sistema de Pity</strong><br>3.000 invocações</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>🏅 SSS+ Selection Box</h3>
+        <p>Ao obter um <strong>Ticket DGO</strong> através do Gacha Free, será possível fabricar:</p>
+        <ul class="event-item-list">
+          <li><strong>📦 SSS+ Selection Box (Free Gacha)</strong><br>Custo: 1 Ticket DGO<br>Limite: 1</li>
+        </ul>
+        <p>Escolha um dos seguintes prêmios:</p>
+        <ul class="event-item-list">
+          <li>🔹 Alphamon Ouryuken (Awaken)</li>
+          <li>🔹 Xros-Up Mervamon</li>
+          <li>🔹 Omegamon Alter-B</li>
+          <li>🔹 SSS+ Condensador</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>📌 Informações importantes</h3>
+        <ul>
+          <li>Duração do evento: 31 dias.</li>
+          <li>Big Mamemon reaparece a cada 90 minutos.</li>
+          <li>Cada eliminação concede 6 World Cup Fragment.</li>
+          <li>Há chance de obter o título DigiWorld Cup 2026.</li>
+          <li>Os bilhetes do Gacha são obtidos na Love Dungeon.</li>
+          <li>O Ticket DGO é obtido exclusivamente através do Gacha Free.</li>
+        </ul>
+        <p><strong>Boa sorte, Tamers! 🏆⚽</strong></p>
+      `,
+
+      "block.eventos.kizunas": `
+        <div class="event-hero">
+          <h3>✨ Kizuna Permanente</h3>
+          <p>O Kizuna Permanente é um sistema de progressão que permite obter de forma definitiva uma das evoluções Kizuna.</p>
+        </div>
+
+        <hr class="event-divider">
+        <h3>Sobre o Evento</h3>
+        <p>Ao concluir a etapa inicial, será possível escolher entre:</p>
+        <ul class="event-item-list">
+          <li><strong>Agumon Kizuna</strong></li>
+          <li><strong>Gabumon Kizuna</strong></li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>Como Funciona</h3>
+        <p>Para participar, é necessário aceitar a quest diária com o NPC <strong>&lt;Craft&gt; Agumon Kizuna</strong>.</p>
+        <p>A missão pede que o jogador derrote os bosses das Dungeons das Bestas. Após completar essa missão por <strong>3 dias</strong>, será possível craftar a box de recompensa.</p>
+
+        <h3>Onde pegar a quest?</h3>
+        <div class="images"><img src="Craft_Agumon_Kizuna.png" alt="NPC Craft Agumon Kizuna para obter a quest diária" style="width:75%;"></div>
+
+        <hr class="event-divider">
+        <h3>Recompensa Inicial</h3>
+        <p>Depois de concluir os 3 dias da missão, o jogador poderá craftar uma box exclusiva contendo a escolha de um dos Kizunas permanentes.</p>
+        <ul class="event-item-list">
+          <li><strong>Opções disponíveis</strong><br>Agumon Kizuna<br>Gabumon Kizuna</li>
+          <li><strong>Custo</strong><br>5T para craftar a box</li>
+          <li><strong>Importante</strong><br>A box pode ser craftada apenas uma única vez.</li>
+        </ul>
+
+        <h3>Prêmios</h3>
+        <p class="notice">Clique na imagem para ampliar.</p>
+        <div class="images"><img class="image-zoom-trigger" data-image-zoom src="Box_Kizunas.png" alt="Prêmios da Box Kizunas" style="width:100%;" tabindex="0" role="button" aria-label="Ampliar prêmios da Box Kizunas"></div>
+
+        <hr class="event-divider">
+        <h3>Progressão de Longo Prazo</h3>
+        <p>Como o sistema é permanente, a quest diária pode continuar sendo feita normalmente.</p>
+        <p>Após <strong>30 dias</strong>, será possível craftar mais uma evolução da linha Kizuna:</p>
+        <ul class="event-item-list">
+          <li><strong>Last Evolution - Bravery</strong></li>
+          <li><strong>Last Evolution - Friendship</strong></li>
+          <li><strong>Custo das Evoluções</strong><br>5T para craftar cada evolução</li>
+        </ul>
+
+        <hr class="event-divider">
+        <h3>Dica</h3>
+        <p class="notice"><strong>Aproveite esse período para evoluir seu Kizuna até 5 estrelas e liberar todo o seu potencial.</strong></p>
+      `,
+
+      // CORREÇÃO: bloco do Gankoomon adicionado
+      "block.gk": `
+        <p>O <strong>Gankoomon's Training Ground</strong> pode ser acessado através do NPC <strong>Gankoomon &lt;Royal Knights&gt;</strong>, localizado no DATS Center, próximo ao NPC <strong>Calumon &lt;Jogress Quest&gt;</strong>.</p>
+
+        <h3>Como acessar</h3>
+        <ul>
+          <li>Fale com o NPC <strong>Gankoomon &lt;Royal Knights&gt;</strong> no DATS Center.</li>
+          <li>É necessário possuir o <strong>Training Ground Entrance Ticket</strong> para entrar na dungeon. O ticket pode ser adquirido no próprio NPC <strong>Gankoomon &lt;Royal Knights&gt;</strong>.</li>
+          <li>O Training Ground agora pode ser concluído diariamente por meio da missão diária recebida com Gankoomon.</li>
+        </ul>
+
+        <h3>Drops semanais</h3>
+        <p class="notice">Clique na imagem para ampliar.</p>
+        <div class="images"><img class="image-zoom-trigger" data-image-zoom src="Gankoomon_DUNGEON_BR.png" alt="Drops semanais da Gankoomon Training Ground" style="width:75%;" tabindex="0" role="button" aria-label="Ampliar drops semanais da Gankoomon Training Ground"></div>
+      `
+    }
+  };
+
+  // ====== i18n ENGINE ======
+  function hydrateTranslatedHtml(root, lang) {
+    const dict = I18N[lang] || I18N.pt;
+    root.querySelectorAll("[data-i18n-html]").forEach(el => {
+      const key = el.getAttribute("data-i18n-html");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+  }
+
+  function applyTranslations(lang) {
+    const dict = I18N[lang] || I18N.pt;
+    document.documentElement.lang = 'pt-BR';
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => {
+      if (el.closest(".novice-block, .digimon-info, .event-block")) return;
+      const key = el.getAttribute("data-i18n-html");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-attr]").forEach(el => {
+      const pairs = el.getAttribute("data-i18n-attr").split(",").map(s=>s.trim());
+      pairs.forEach(pair=>{
+        const [attr, key] = pair.split(":");
+        if (dict[key] != null) el.setAttribute(attr, dict[key]);
+      });
+    });
+  }
+
+  // ====== UI helpers ======
+  let openDungeonId = null;
+  let heroTemplate = "";
+  let openNovatoId = null;
+  let novatoHeroTemplate = "";
+  let openEventoId = null;
+  let eventHeroTemplate = "";
+  let rafflesimonEventTimer = null;
+  let mamemonEventTimer = null;
+  let kizunasEventTimer = null;
+
+  function resetDungeonView(){
+    const content = document.getElementById('dungeon-content');
+    if (!content) return;
+    content.innerHTML = heroTemplate;
+    openDungeonId = null;
+    // MELHORIA: applyTranslations só quando há atributos i18n no hero
+    applyTranslations('pt');
+  }
+
+  function toggleDungeonInfo(id){
+    const content = document.getElementById('dungeon-content');
+    if (!content) return;
+    if (openDungeonId === id) { resetDungeonView(); return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    hydrateTranslatedHtml(target, 'pt');
+    content.innerHTML = target.innerHTML;
+    openDungeonId = id;
+    applyTranslations('pt');
+  }
+
+  function resetNovatoView(){
+    const content = document.getElementById('novice-content');
+    if (!content) return;
+    content.innerHTML = novatoHeroTemplate;
+    openNovatoId = null;
+    applyTranslations('pt');
+  }
+
+  function toggleNovato(id){
+    const content = document.getElementById('novice-content');
+    if (!content) return;
+    if (openNovatoId === id) { resetNovatoView(); return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    hydrateTranslatedHtml(target, 'pt');
+    content.innerHTML = target.innerHTML;
+    openNovatoId = id;
+    applyTranslations('pt');
+  }
+
+  function resetEventView(){
+    const content = document.getElementById('event-content');
+    if (!content) return;
+    content.innerHTML = eventHeroTemplate;
+    openEventoId = null;
+    applyTranslations('pt');
+  }
+
+  function showRafflesimonEvent(){
+    const rafflesimon = document.getElementById('rafflesimon-event-cameo');
+    if (!rafflesimon) return;
+    hideEventCameos();
+    void rafflesimon.offsetWidth;
+    rafflesimon.classList.add('show');
+    rafflesimonEventTimer = setTimeout(() => rafflesimon.classList.remove('show'), 2000);
+  }
+
+  function showMamemonEvent(){
+    const mamemon = document.getElementById('mamemon-event-cameo');
+    if (!mamemon) return;
+    hideEventCameos();
+    void mamemon.offsetWidth;
+    mamemon.classList.add('show');
+    mamemonEventTimer = setTimeout(() => mamemon.classList.remove('show'), 2000);
+  }
+
+  function showKizunasEvent(){
+    const kizunas = document.getElementById('kizunas-event-cameo');
+    if (!kizunas) return;
+    hideEventCameos();
+    void kizunas.offsetWidth;
+    kizunas.classList.add('show');
+    kizunasEventTimer = setTimeout(() => kizunas.classList.remove('show'), 2000);
+  }
+
+  function hideEventCameos(){
+    clearTimeout(rafflesimonEventTimer);
+    clearTimeout(mamemonEventTimer);
+    clearTimeout(kizunasEventTimer);
+    document.getElementById('rafflesimon-event-cameo')?.classList.remove('show');
+    document.getElementById('mamemon-event-cameo')?.classList.remove('show');
+    document.getElementById('kizunas-event-cameo')?.classList.remove('show');
+  }
+
+  function toggleEvento(id){
+    const content = document.getElementById('event-content');
+    if (!content) return;
+    if (id === 'evento-kizunas') showKizunasEvent();
+    if (id === 'evento-namorados-2026') showRafflesimonEvent();
+    if (id === 'evento-copa-mundo-2026') showMamemonEvent();
+    if (openEventoId === id) { resetEventView(); return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    hydrateTranslatedHtml(target, 'pt');
+    content.innerHTML = target.innerHTML;
+    openEventoId = id;
+    applyTranslations('pt');
+  }
+
+  // ===== PORTAL =====
+  function firePortal(){
+    const overlay = document.getElementById('portal-overlay');
+    if(!overlay) return;
+    const leftCol = overlay.querySelector('.glyphs-left');
+    const rightCol = overlay.querySelector('.glyphs-right');
+    if (!leftCol.childElementCount || !rightCol.childElementCount){
+      const chars = ['0','1','<','>','Δ','Ω','Σ','デ','ジ','モ','ン','◈','◆','✦','∎','▢','▣'];
+      const rows = 22;
+      const fill = (col)=>{
+        for(let i=0;i<rows;i++){
+          const sp = document.createElement('span');
+          sp.textContent = chars[Math.floor(Math.random()*chars.length)];
+          sp.style.setProperty('--delay', (0.20 + i*0.03)+'s');
+          col.appendChild(sp);
+        }
+      };
+      fill(leftCol); fill(rightCol);
+    }
+    document.body.classList.remove('portal-open');
+    void overlay.offsetWidth;
+    document.body.classList.add('portal-open');
+    const bits = 70;
+    const w = window.innerWidth, h = window.innerHeight;
+    for(let i=0;i<bits;i++){
+      const b = document.createElement('i');
+      b.className = 'bit';
+      const sign = Math.random() < 0.5 ? -1 : 1;
+      const dx = sign * (w * (0.40 + Math.random()*0.45));
+      const dy = (Math.random() - 0.5) * h * 0.28;
+      const dur = 850 + Math.random()*900;
+      const size = 4 + Math.random()*10;
+      b.style.setProperty('--dx', dx + 'px');
+      b.style.setProperty('--dy', dy + 'px');
+      b.style.setProperty('--dur', dur + 'ms');
+      b.style.setProperty('--sz', size + 'px');
+      overlay.appendChild(b);
+      setTimeout(()=> b.remove(), dur + 120);
+    }
+    setTimeout(()=> document.body.classList.remove('portal-open'), 1300);
+  }
+
+  const DIGIMONS_REDIRECT_URL = "https://www.digimongalaxy.com/pages/Digimons/digimons/";
+
+  function redirectToDigimons() {
+    window.location.href = DIGIMONS_REDIRECT_URL;
+  }
+
+  function openImageZoom(image){
+    const overlay = document.getElementById('image-zoom-overlay');
+    const zoomImage = document.getElementById('image-zoom-img');
+    const title = document.getElementById('image-zoom-title');
+    if (!overlay || !zoomImage || !image) return;
+    zoomImage.src = image.currentSrc || image.src;
+    zoomImage.alt = image.alt || 'Imagem ampliada';
+    if (title) title.textContent = image.alt || 'Visualização ampliada';
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.querySelector('.image-zoom-close')?.focus();
+  }
+
+  function closeImageZoom(){
+    const overlay = document.getElementById('image-zoom-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  const DISCORD_CHANGELOG_URL = 'discord-changelog.json';
+  const DISCORD_CHANNEL_URL = 'https://discord.com/channels/1373314901145292932/1373314902977937451';
+
+  function formatDiscordDate(value){
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    return new Intl.DateTimeFormat('pt-BR', {
+      dateStyle: 'long',
+      timeStyle: 'short'
+    }).format(date);
+  }
+
+  function createChangeLogImage(src, alt){
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = alt || 'Imagem publicada no change-log';
+    image.loading = 'lazy';
+    image.className = 'image-zoom-trigger';
+    image.dataset.imageZoom = '';
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', `Ampliar ${image.alt}`);
+    return image;
+  }
+
+  function appendChangeLogAttachment(container, attachment){
+    if (!attachment?.url) return;
+    if (attachment.content_type?.startsWith('image/')) {
+      container.appendChild(createChangeLogImage(attachment.url, attachment.filename));
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.className = 'changelog-attachment-link';
+    link.href = attachment.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = attachment.filename || 'Abrir anexo';
+    container.appendChild(link);
+  }
+
+  function appendChangeLogEmbed(entry, embed){
+    if (!embed?.title && !embed?.description && !embed?.image_url && !embed?.fields?.length) return;
+    const card = document.createElement('div');
+    card.className = 'changelog-embed';
+
+    if (embed.title) {
+      const title = document.createElement('h3');
+      title.textContent = embed.title;
+      card.appendChild(title);
+    }
+    if (embed.description) {
+      const description = document.createElement('p');
+      description.className = 'changelog-content';
+      description.textContent = embed.description;
+      card.appendChild(description);
+    }
+    embed.fields?.forEach(field => {
+      const fieldTitle = document.createElement('strong');
+      fieldTitle.textContent = field.name || '';
+      const fieldContent = document.createElement('p');
+      fieldContent.className = 'changelog-content';
+      fieldContent.textContent = field.value || '';
+      card.append(fieldTitle, fieldContent);
+    });
+    if (embed.image_url) card.appendChild(createChangeLogImage(embed.image_url, embed.title));
+    entry.appendChild(card);
+  }
+
+  function createChangeLogEntry(message){
+    const entry = document.createElement('article');
+    entry.className = 'changelog-entry';
+
+    const header = document.createElement('header');
+    header.className = 'changelog-entry-header';
+    const author = document.createElement('span');
+    author.className = 'changelog-author';
+    author.textContent = message.author?.display_name || message.author?.username || 'Digital Galaxy';
+    const date = document.createElement('time');
+    date.className = 'changelog-date';
+    date.dateTime = message.timestamp || '';
+    date.textContent = formatDiscordDate(message.timestamp);
+    header.append(author, date);
+    entry.appendChild(header);
+
+    if (message.content) {
+      const content = document.createElement('p');
+      content.className = 'changelog-content';
+      content.textContent = message.content;
+      entry.appendChild(content);
+    }
+
+    if (message.attachments?.length) {
+      const attachments = document.createElement('div');
+      attachments.className = 'changelog-attachments';
+      message.attachments.forEach(attachment => appendChangeLogAttachment(attachments, attachment));
+      if (attachments.childElementCount) entry.appendChild(attachments);
+    }
+
+    message.embeds?.forEach(embed => appendChangeLogEmbed(entry, embed));
+    return entry;
+  }
+
+  function renderDiscordChangeLog(data){
+    const list = document.getElementById('changelog-list');
+    if (!list) return;
+    list.replaceChildren();
+
+    if (!data.messages?.length) {
+      const empty = document.createElement('div');
+      empty.className = 'changelog-empty';
+      const text = document.createElement('p');
+      text.textContent = 'Nenhuma atualização foi sincronizada ainda.';
+      const link = document.createElement('a');
+      link.className = 'changelog-discord-link';
+      link.href = DISCORD_CHANNEL_URL;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'Ver publicações no Discord';
+      empty.append(text, link);
+      list.appendChild(empty);
+      return;
+    }
+
+    data.messages.forEach(message => list.appendChild(createChangeLogEntry(message)));
+    list.dataset.loaded = 'true';
+  }
+
+  async function loadDiscordChangeLog(manual = false){
+    const status = document.getElementById('changelog-status');
+    const list = document.getElementById('changelog-list');
+    if (!status || !list) return;
+    status.textContent = manual ? 'Atualizando publicações...' : 'Carregando atualizações...';
+
+    try {
+      const response = await fetch(`${DISCORD_CHANGELOG_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      renderDiscordChangeLog(data);
+      status.textContent = data.updated_at
+        ? `Última sincronização: ${formatDiscordDate(data.updated_at)}`
+        : 'Aguardando a primeira sincronização com o Discord.';
+    } catch (error) {
+      console.error('Falha ao carregar o change-log:', error);
+      status.textContent = 'Não foi possível carregar o change-log agora.';
+      if (!list.dataset.loaded) {
+        list.replaceChildren();
+        const empty = document.createElement('div');
+        empty.className = 'changelog-empty';
+        const text = document.createElement('p');
+        text.textContent = 'As publicações continuam disponíveis diretamente no Discord.';
+        const link = document.createElement('a');
+        link.className = 'changelog-discord-link';
+        link.href = DISCORD_CHANNEL_URL;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Abrir canal no Discord';
+        empty.append(text, link);
+        list.appendChild(empty);
+      }
+    }
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+    document.body.classList.toggle('mascote-novato-active', id === 'novato');
+
+    const target = document.getElementById(id);
+    if (target) {
+      target.classList.add('active');
+      if (id === 'dungeons') { resetDungeonView(); firePortal(); }
+      if (id === 'novato') { resetNovatoView(); resetarMascoteNovato(); }
+      if (id === 'eventos') resetEventView();
+      if (id === 'guias') loadDiscordChangeLog();
+    }
+  }
+
+  window.addEventListener('error', event => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement) || !image.getAttribute('src')) return;
+
+    const notice = document.createElement('p');
+    notice.className = 'notice image-placeholder';
+    notice.textContent = 'Imagem em preparação.';
+    image.replaceWith(notice);
+  }, true);
+
+  // ===== INIT =====
+  window.addEventListener('DOMContentLoaded', () => {
+    const heroEl = document.getElementById('dungeon-hero');
+    if (heroEl) heroTemplate = heroEl.outerHTML;
+
+    const novHero = document.getElementById('novato-hero');
+    if (novHero) novatoHeroTemplate = novHero.outerHTML;
+
+    const eventHero = document.getElementById('event-hero');
+    if (eventHero) eventHeroTemplate = eventHero.outerHTML;
+
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('[data-image-zoom]');
+      if (trigger) openImageZoom(trigger);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeImageZoom();
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-image-zoom]')) {
+        event.preventDefault();
+        openImageZoom(event.target);
+      }
+    });
+
+    const imageZoomOverlay = document.getElementById('image-zoom-overlay');
+    imageZoomOverlay?.addEventListener('click', event => {
+      if (event.target === imageZoomOverlay || event.target.id === 'image-zoom-img') closeImageZoom();
+    });
+
+    window.setInterval(() => {
+      if (document.getElementById('guias')?.classList.contains('active')) loadDiscordChangeLog();
+    }, 60000);
+
+    showSection('inicio');
+    applyTranslations('pt');
+  });
+</script>
+</body>
+</html>
